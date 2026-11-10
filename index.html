@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>青川市第三高级中学 | 官方网站</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%239e2b25'/%3E%3Ctext x='16' y='23' font-size='20' fill='%23f6f3ea' text-anchor='middle' font-family='serif'%3E青%3C/text%3E%3C/svg%3E">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#f6f3ea; --paper2:#efeadd; --ink:#25322d; --ink2:#5a6357;
+  --line:#d9d2bd; --accent:#9e2b25; --accent2:#7a1f1a;
+  --lyn-bg:#070708; --lyn-fg:#c9c4b8; --lyn-red:#a11616; --lyn-red2:#e04a3a;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Noto Serif SC',serif;background:var(--paper);color:var(--ink);font-size:16px;line-height:1.85}
+body.inlyn{background:var(--lyn-bg);color:var(--lyn-fg)}
+a{color:inherit}
+button{font-family:inherit;cursor:pointer}
+input,textarea{font-family:inherit;font-size:15px}
+::selection{background:var(--accent);color:var(--paper)}
+
+#noise{position:fixed;inset:0;width:100vw;height:100vh;pointer-events:none;opacity:.04;z-index:9000;image-rendering:pixelated}
+body.inlyn #noise{opacity:.11}
+#vig{position:fixed;inset:0;pointer-events:none;z-index:8990;box-shadow:inset 0 0 22vmax rgba(0,0,0,.14)}
+body.inlyn #vig{box-shadow:inset 0 0 30vmax rgba(0,0,0,.85)}
+#scan{position:fixed;inset:0;pointer-events:none;z-index:8995;display:none;background:repeating-linear-gradient(0deg,transparent 0 2px,rgba(0,0,0,.22) 2px 4px)}
+body.inlyn #scan{display:block}
+body.hunted #vig{animation:hunt 2s infinite}
+@keyframes hunt{0%,100%{box-shadow:inset 0 0 24vmax rgba(60,0,0,.35)}50%{box-shadow:inset 0 0 30vmax rgba(120,0,0,.6)}}
+#flash{position:fixed;inset:0;background:#000;opacity:0;pointer-events:none;z-index:9500}
+#flash.on{animation:fl .7s}
+@keyframes fl{0%{opacity:0}12%{opacity:1}60%{opacity:1}100%{opacity:0}}
+
+.wrap{max-width:1060px;margin:0 auto;padding:0 22px}
+header.top{border-bottom:3px double var(--ink);padding:26px 0 14px}
+.topbar{display:flex;justify-content:space-between;align-items:flex-end;gap:18px;flex-wrap:wrap}
+.brand{display:flex;gap:16px;align-items:center}
+.brand svg{flex:none}
+.brand h1{font-weight:900;font-size:30px;letter-spacing:.14em}
+.brand .en{font-size:11px;color:var(--ink2);letter-spacing:.28em;margin-top:2px}
+.datebar{font-size:13px;color:var(--ink2);text-align:right}
+nav.main{display:flex;flex-wrap:wrap;border-bottom:1px solid var(--line);margin-top:14px}
+nav.main a{padding:9px 16px;text-decoration:none;font-size:15px;letter-spacing:.1em;border-bottom:3px solid transparent;transition:.2s}
+nav.main a:hover,nav.main a.on{color:var(--accent);border-bottom-color:var(--accent)}
+.marq{border-bottom:1px solid var(--line);padding:8px 0;font-size:13.5px;color:var(--ink2);overflow:hidden;white-space:nowrap}
+.marq b{color:var(--accent);font-weight:600;margin-right:10px}
+main{min-height:60vh;padding:34px 0 60px}
+footer{border-top:3px double var(--ink);padding:26px 0 40px;font-size:13px;color:var(--ink2)}
+footer .flinks{margin-top:6px}
+footer a{text-decoration:none;border-bottom:1px dotted var(--ink2)}
+footer a:hover{color:var(--accent)}
+
+h2.page{font-size:24px;font-weight:900;letter-spacing:.18em;border-left:6px solid var(--accent);padding-left:14px;margin-bottom:6px}
+.crumb{font-size:12.5px;color:var(--ink2);margin:4px 0 26px 20px;letter-spacing:.05em}
+.stamp{position:relative}
+.stamp::after{content:"青川三中";position:absolute;right:6px;top:2px;width:64px;height:64px;border:2.5px solid rgba(158,43,37,.55);border-radius:6px;color:rgba(158,43,37,.55);display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:900;letter-spacing:.1em;transform:rotate(12deg);writing-mode:vertical-rl;pointer-events:none}
+
+.home-grid{display:grid;grid-template-columns:1.5fr 1fr;gap:40px}
+.headline h3{font-size:22px;font-weight:900;line-height:1.5;margin:8px 0}
+.headline p{color:var(--ink2);font-size:14.5px}
+.tag{display:inline-block;background:var(--accent);color:#f6f3ea;font-size:12px;padding:2px 10px;letter-spacing:.15em}
+.newslist{list-style:none;margin-top:26px}
+.newslist li{border-bottom:1px dashed var(--line);padding:11px 0;display:flex;gap:12px;align-items:baseline}
+.newslist time{font-size:12.5px;color:var(--ink2);flex:none;font-family:serif}
+.newslist a{text-decoration:none;transition:.15s}
+.newslist a:hover{color:var(--accent)}
+.noticelist{list-style:none}
+.noticelist li{padding:9px 0 9px 14px;border-left:2px solid var(--line);margin-bottom:10px;font-size:14.5px;position:relative}
+.noticelist li::before{content:"";position:absolute;left:-5px;top:18px;width:8px;height:8px;background:var(--paper);border:1.5px solid var(--ink2);border-radius:50%}
+.noticelist li:hover{border-left-color:var(--accent)}
+.noticelist a{text-decoration:none}
+.noticelist a:hover{color:var(--accent)}
+.side h4{font-size:17px;font-weight:900;letter-spacing:.15em;margin-bottom:14px;padding-bottom:8px;border-bottom:2px solid var(--ink)}
+.gallery-strip{margin-top:46px;border-top:1px solid var(--line);padding-top:24px}
+.gstrip{display:flex;gap:14px;overflow-x:auto;padding-bottom:8px}
+.ph{flex:none;width:190px;height:130px;position:relative;background:#e7e2d2;overflow:hidden;cursor:pointer;border:1px solid var(--line);filter:sepia(.25) contrast(.95)}
+.ph svg{width:100%;height:100%;display:block}
+.ph figcaption{position:absolute;left:0;right:0;bottom:0;background:rgba(20,26,23,.72);color:#e8e2d2;font-size:12px;padding:3px 8px;letter-spacing:.08em}
+.ph:hover{filter:sepia(.1) contrast(1.05)}
+
+.prose{max-width:760px}
+.prose p{margin:14px 0;text-indent:2em}
+.prose p.noind{text-indent:0}
+.prose .odd{color:var(--accent);font-weight:600;background:rgba(158,43,37,.05)}
+.meta{font-size:13px;color:var(--ink2);border-bottom:1px solid var(--line);padding-bottom:12px;margin-bottom:22px}
+.backline{margin-top:38px;font-size:14px}
+.backline a{text-decoration:none;color:var(--accent)}
+.dataline{display:flex;gap:0;border:1px solid var(--ink);margin:26px 0}
+.dataline div{flex:1;padding:16px 10px;text-align:center;border-right:1px solid var(--ink)}
+.dataline div:last-child{border-right:none}
+.dataline b{display:block;font-size:26px;font-weight:900}
+.dataline span{font-size:12.5px;color:var(--ink2);letter-spacing:.1em}
+
+.tgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:20px}
+.tcard{border:1px solid var(--line);background:var(--paper2);padding:18px;cursor:pointer;transition:.2s;position:relative}
+.tcard:hover{border-color:var(--ink);transform:translateY(-2px)}
+.tcard .tp{width:64px;height:78px;background:#c9c4b2;display:flex;align-items:flex-end;justify-content:center;overflow:hidden;margin-bottom:12px;filter:grayscale(1)}
+.tcard h4{font-size:17px;font-weight:900}
+.tcard small{color:var(--ink2);font-size:12.5px;letter-spacing:.06em}
+.tcard .arrow{position:absolute;right:14px;top:16px;color:var(--ink2);font-size:13px}
+
+.rlist{counter-reset:r}
+.rlist li{list-style:none;padding:12px 0 12px 4px;border-bottom:1px dotted var(--line);display:flex;gap:16px}
+.rlist .no{flex:none;font-family:serif;color:var(--ink2);width:44px}
+.rlist li.odd-row{background:rgba(158,43,37,.05);border-bottom:1px solid rgba(158,43,37,.3)}
+.rlist li.odd-row .no{color:var(--accent);font-weight:900}
+
+.letter{border:1px solid var(--line);background:var(--paper2);padding:26px 30px;margin:20px 0;position:relative;box-shadow:3px 3px 0 rgba(37,50,45,.06)}
+.letter h5{font-size:13px;letter-spacing:.2em;color:var(--ink2);margin-bottom:12px;font-weight:600}
+.letter p{margin:10px 0;text-indent:0}
+.letter .sig{text-align:right;color:var(--ink2);font-size:14px;margin-top:10px}
+.reply{border-left:3px solid var(--accent);background:transparent}
+.tbox{margin-top:26px}
+.tbox textarea{width:100%;min-height:90px;border:1px solid var(--ink);background:transparent;padding:12px;resize:vertical}
+.btn{background:var(--ink);color:var(--paper);border:none;padding:9px 26px;font-size:14.5px;letter-spacing:.2em;transition:.2s;margin-top:12px}
+.btn:hover{background:var(--accent)}
+.btn.line{background:transparent;color:var(--ink);border:1px solid var(--ink)}
+.btn.line:hover{border-color:var(--accent);color:var(--accent)}
+
+.acad{max-width:820px;margin:0 auto}
+.loginbox{max-width:420px;margin:40px auto;border:1px solid var(--ink);padding:34px 36px;background:var(--paper2)}
+.loginbox h3{letter-spacing:.2em;margin-bottom:20px;font-size:19px}
+.fld{margin-bottom:16px}
+.fld label{display:block;font-size:13px;color:var(--ink2);margin-bottom:5px;letter-spacing:.1em}
+.fld input{width:100%;border:1px solid var(--ink);background:transparent;padding:9px 12px;letter-spacing:.08em}
+.hintline{font-size:12px;color:var(--ink2);margin-top:14px}
+.shake{animation:sk .4s}
+@keyframes sk{0%,100%{transform:translateX(0)}25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
+.acad-top{display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid var(--ink);padding-bottom:10px;margin-bottom:4px}
+.acad-top b{letter-spacing:.1em}
+.acad-top .who{font-size:14px}
+.acad-top .who i{font-style:normal;color:var(--accent)}
+.tabs{display:flex;gap:0;border-bottom:1px solid var(--line)}
+.tabs button{background:none;border:none;padding:11px 18px;font-size:14.5px;letter-spacing:.1em;border-bottom:3px solid transparent;color:var(--ink2)}
+.tabs button.on{color:var(--accent);border-bottom-color:var(--accent);font-weight:600}
+.tabs .dot{display:inline-block;width:7px;height:7px;background:var(--accent);border-radius:50%;margin-left:5px;animation:bl 1.2s infinite}
+@keyframes bl{50%{opacity:.2}}
+table.grid{width:100%;border-collapse:collapse;margin:18px 0;font-size:14.5px}
+table.grid th,table.grid td{border:1px solid var(--line);padding:9px 12px;text-align:left}
+table.grid th{background:var(--paper2);font-weight:600;letter-spacing:.1em;font-size:13px}
+tr:hover .rem{color:var(--accent)}
+.notice-item{border:1px solid var(--line);background:var(--paper2);padding:14px 18px;margin:12px 0;display:flex;justify-content:space-between;gap:14px;align-items:center;cursor:pointer;transition:.2s}
+.notice-item:hover{border-color:var(--ink)}
+.notice-item.locked{color:var(--ink2)}
+.notice-item .lock{font-size:12px;color:var(--ink2);letter-spacing:.1em;flex:none}
+.mail{border-left:3px solid var(--accent);padding:20px 24px;background:var(--paper2);margin:16px 0}
+.mail h4{margin-bottom:6px}
+.mail .mh{font-size:12.5px;color:var(--ink2);margin-bottom:14px}
+
+.song{max-width:640px}
+.songline{font-size:19px;letter-spacing:.3em;padding:7px 0;transition:.4s;color:var(--ink2)}
+.songline.on{color:var(--ink);font-weight:600}
+.songline.on::before{content:"♪ ";color:var(--accent)}
+
+#modal{position:fixed;inset:0;z-index:9600;display:none;align-items:center;justify-content:center;background:rgba(12,14,12,.78);padding:20px}
+#modal.on{display:flex}
+.mcard{background:var(--paper);max-width:640px;width:100%;padding:30px 34px;border:1px solid var(--ink);position:relative;max-height:88vh;overflow:auto}
+.mcard .x{position:absolute;right:12px;top:8px;background:none;border:none;font-size:22px;color:var(--ink2)}
+.bigphoto{width:100%;height:300px;background:#ded8c4;border:1px solid var(--line);margin:14px 0;filter:sepia(.3)}
+.bigphoto svg{width:100%;height:100%}
+.mcap{font-size:13.5px;color:var(--ink2)}
+.mcap b{color:var(--ink)}
+
+#toast{position:fixed;left:50%;bottom:36px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:var(--paper);padding:11px 26px;font-size:14px;letter-spacing:.08em;opacity:0;transition:.3s;z-index:9700;max-width:80vw;text-align:center}
+#toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+#toast.red{background:var(--accent2)}
+
+.lyn{display:grid;grid-template-columns:150px 1fr;min-height:62vh;gap:30px}
+.lyn-nav{border-right:1px solid #2a2a2c;padding-right:16px}
+.lyn-nav button{display:block;width:100%;text-align:left;background:none;border:none;color:#7c786d;padding:9px 4px;font-size:14.5px;letter-spacing:.15em;border-left:2px solid transparent;transition:.2s}
+.lyn-nav button:hover{color:var(--lyn-fg)}
+.lyn-nav button.on{color:var(--lyn-red2);border-left-color:var(--lyn-red2)}
+.lyn-nav .sl{writing-mode:vertical-rl;color:#3c2a28;font-size:13px;letter-spacing:.5em;margin:30px auto 0;display:block;text-align:center}
+.lyn-doc h3{color:var(--lyn-red2);font-size:22px;letter-spacing:.25em;margin-bottom:6px;animation:gt 6s infinite}
+@keyframes gt{0%,93%,100%{text-shadow:none;transform:none}94%{text-shadow:-3px 0 #3d0a0a,3px 0 #1d2a2a;transform:skewX(2deg)}96%{text-shadow:3px 0 #3d0a0a,-3px 0 #1d2a2a;transform:skewX(-1.5deg)}97%{transform:none}}
+.lyn-doc .docno{font-size:12px;color:#5a564c;letter-spacing:.3em;margin-bottom:24px}
+.lyn-doc p{margin:14px 0;color:var(--lyn-fg)}
+.lyn-doc p.red{color:var(--lyn-red2)}
+.lyn-doc p.dim{color:#6e6a60}
+.lyn-doc table{width:100%;border-collapse:collapse;font-size:14px;margin:16px 0}
+.lyn-doc td{border-bottom:1px solid #1e1e20;padding:6px 10px;color:#9a968b}
+.lyn-doc tr:hover td{color:var(--lyn-red2);background:rgba(161,22,22,.06)}
+.lyn-doc td.y{color:#6e6a60;width:90px;font-family:serif}
+.lyn-doc td.n{width:130px;letter-spacing:.15em}
+.cd-bar{border:1px solid #3d1010;background:rgba(161,22,22,.08);padding:10px 18px;margin-bottom:22px;color:var(--lyn-red2);letter-spacing:.15em;display:none;align-items:center;gap:14px;font-size:15px}
+.cd-bar.on{display:flex;animation:cdpulse 1s infinite}
+@keyframes cdpulse{50%{background:rgba(161,22,22,.2)}}
+.cd-bar b{font-size:20px;font-family:serif}
+.seats{display:grid;grid-template-columns:repeat(8,52px);gap:8px;margin:22px 0}
+.seat{height:44px;border:1px solid #2c2c2e;display:flex;align-items:center;justify-content:center;font-size:12px;color:#57534a;letter-spacing:.05em}
+.seat.empty{border:1px solid var(--lyn-red);background:rgba(161,22,22,.08);color:var(--lyn-red2);position:relative}
+.lyn-input{background:#0d0d0f;border:1px solid #333;color:var(--lyn-fg);padding:9px 14px;width:280px;letter-spacing:.15em}
+.lyn-input:focus{outline:none;border-color:var(--lyn-red)}
+.lyn-btn{background:transparent;border:1px solid var(--lyn-red);color:var(--lyn-red2);padding:9px 26px;letter-spacing:.25em;margin-left:10px;transition:.2s}
+.lyn-btn:hover{background:var(--lyn-red);color:#000}
+.painting{width:100%;max-width:420px;height:320px;background:#0b0b0d;border:1px solid #26262a;margin:20px auto;position:relative}
+.painting svg{width:100%;height:100%}
+.painting:hover .eye{opacity:.55;transition:3s}
+.painting:hover .figure{transform:translateX(6px);transition:4s}
+
+#overlay{position:fixed;inset:0;background:#000;z-index:9800;display:none;align-items:center;justify-content:center;padding:20px}
+#overlay.on{display:flex}
+.endcard{max-width:620px;width:100%;padding:50px 54px;background:#0a0a0b;border:1px solid #2a2a2c;color:var(--lyn-fg)}
+.endcard.paper{background:var(--paper);border:none;color:var(--ink)}
+.endcard .eno{font-size:12px;letter-spacing:.4em;color:#6e6a60}
+.endcard.paper .eno{color:var(--ink2)}
+.endcard h2{font-size:34px;letter-spacing:.3em;margin:14px 0 6px;color:var(--lyn-red2)}
+.endcard.paper h2{color:var(--accent)}
+.endcard .body p{margin:16px 0;font-size:15.5px}
+.endcard .stat{border-top:1px solid #2a2a2c;margin-top:26px;padding-top:18px;font-size:13px;color:#6e6a60;letter-spacing:.1em}
+.endcard.paper .stat{border-color:var(--line);color:var(--ink2)}
+.endcard .acts{margin-top:30px;display:flex;gap:14px;flex-wrap:wrap}
+
+#type-layer{font-size:15px;color:#9a968b;letter-spacing:.2em;line-height:2.4;max-width:520px}
+#type-layer .cursor{display:inline-block;width:9px;height:18px;background:#9a968b;animation:bl 1s infinite;vertical-align:-3px}
+
+@media(max-width:820px){
+  .home-grid{grid-template-columns:1fr}
+  .lyn{grid-template-columns:1fr}
+  .lyn-nav{border-right:none;border-bottom:1px solid #2a2a2c;padding-bottom:12px;display:flex;flex-wrap:wrap;gap:4px}
+  .lyn-nav .sl{display:none}
+  .lyn-nav button{width:auto;border-left:none;border-bottom:2px solid transparent}
+  .lyn-nav button.on{border-bottom-color:var(--lyn-red2)}
+  .seats{grid-template-columns:repeat(6,44px)}
+  .dataline{flex-wrap:wrap}.dataline div{min-width:45%}
+  .brand h1{font-size:22px}
+  .endcard{padding:34px 26px}
+}
+</style>
+</head>
+<body>
+<canvas id="noise"></canvas>
+<div id="vig"></div><div id="scan"></div><div id="flash"></div>
+<div id="app"></div>
+<div id="modal"></div>
+<div id="toast"></div>
+<div id="overlay"></div>
+<button id="mute" data-act="mute" style="position:fixed;right:16px;bottom:16px;z-index:9400;background:rgba(20,22,20,.8);border:1px solid #555;color:#bbb;font-size:12px;padding:6px 12px;letter-spacing:.15em">音效：开</button>
+
+<script>
+/* =========================================================
+   青川三中 · ARG  v1.1（修复版）
+========================================================= */
+const $=s=>document.querySelector(s);
+const KEY='qc3v1', EKEY='qc3en';
+let S=Object.assign({
+  auth:null, fails:0, time:{}, mail:false, treeN:0, denyN:0, tres:0, shallowN:0, qN:0,
+  lynchRead:{}, lynchTab:'roster', introDone:false, cd:null, called:null,
+  ended:null, started:Date.now(), sealN:0, noteN:0, aTab:null
+}, (()=>{try{return JSON.parse(localStorage.getItem(KEY))||{}}catch(e){return{}}})());
+let EN=(()=>{try{return JSON.parse(localStorage.getItem(EKEY))||{}}catch(e){return{}}})();
+const persist=()=>{ try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){} };
+const saveEN=()=>{ try{localStorage.setItem(EKEY,JSON.stringify(EN))}catch(e){} };
+
+const ROSTER=[
+[1979,'苏怀瑾','建校日的第一位'],[1980,'白望舒',''],[1981,'陈延龄',''],[1982,'傅雪衣','档案缺页'],
+[1983,'齐一鸣',''],[1984,'柳知非',''],[1985,'唐九如',''],[1986,'顾聿',''],
+[1987,'周蘅','先生的第一课'],[1988,'沈槐',''],[1989,'温故','她的妹妹后来回校任教'],
+[1990,'柴敬亭',''],[1991,'阮清梧',''],[1992,'孟迟',''],[1993,'许听澜',''],
+[1994,'桑无邪',''],[1995,'邵鹤年',''],[1996,'秦昼','他后来回来当代校长'],
+[1997,'谢重光',''],[1998,'霍小满',''],[1999,'严冬岭',''],[2000,'蒋一苇',''],
+[2001,'甄微',''],[2002,'阚清欢',''],[2003,'祝新凉',''],[2004,'韩江雪',''],
+[2005,'米兰舟',''],[2006,'闻人静',''],[2007,'柏舟',''],[2008,'从莘',''],
+[2009,'迟迟',''],[2010,'商略',''],[2011,'郁离',''],[2012,'简兮',''],
+[2013,'敖彻',''],[2014,'宛丘',''],[2015,'池鱼',''],[2016,'归荑',''],
+[2017,'未晞',''],[2018,'南乔',''],[2019,'周雨桐','她的作文是那一届四十一篇里最好的'],
+[2020,'白鹭洲',''],[2021,'叶抱枝',''],[2022,'顾城北',''],[2023,'阿禾',''],
+[2024,'覃九',''],[2025,'李晓','他的校牌还没有找到']
+];
+const TEACHERS=['秦昼','华敛','陈守拙','温言','洛平','祝余','郑还','白术','关山','铁凉'];
+const ALLREAD=()=>['roster','log','painting','rollcall','leave','note'].every(k=>S.lynchRead[k]);
+const KEYSET=['home','about','news','teachers','culture','rules','history','library','psych','academic'];
+const sumKey=()=>Object.keys(S.time).reduce((t,k)=>t+(KEYSET.includes(k.split('/')[0])?S.time[k]:0),0);
+
+/* 停留时长：实时记账（切换路由结算上一页；隐藏/关闭页面也结算） */
+let cur=null, since=Date.now();
+function tickTime(r){ const n=Date.now(); if(cur!==null){ S.time[cur]=(S.time[cur]||0)+(n-since) } cur=r; since=n; persist() }
+function bankNow(){ if(cur!==null){ S.time[cur]=(S.time[cur]||0)+(Date.now()-since); since=Date.now(); persist() } }
+window.addEventListener('beforeunload',bankNow);
+document.addEventListener('visibilitychange',()=>{ if(document.hidden)bankNow() });
+
+/* =========================================================
+   音频引擎
+========================================================= */
+const AE={
+  ctx:null,master:null,muted:localStorage.getItem('qcmute')==='1',
+  amb:[],creakT:null,heartT:null,
+  init(){ if(!this.ctx){ const AC=window.AudioContext||window.webkitAudioContext; if(!AC)return;
+    this.ctx=new AC(); this.master=this.ctx.createGain(); this.master.gain.value=this.muted?0:1; this.master.connect(this.ctx.destination); }
+    if(this.ctx.state==='suspended')this.ctx.resume(); },
+  toggle(){ this.muted=!this.muted; try{localStorage.setItem('qcmute',this.muted?'1':'0')}catch(e){}
+    if(this.master)this.master.gain.value=this.muted?0:1; $('#mute').textContent='音效：'+(this.muted?'关':'开'); },
+  env(t0,g,dur){const gn=this.ctx.createGain();gn.gain.setValueAtTime(g,t0);gn.gain.exponentialRampToValueAtTime(.0001,t0+dur);gn.connect(this.master);return gn},
+  tone(f0,f1,dur,g,type='sine',t0){ if(!this.ctx)return; t0=t0||this.ctx.currentTime;
+    const o=this.ctx.createOscillator();o.type=type;o.frequency.setValueAtTime(f0,t0);
+    if(f1)o.frequency.exponentialRampToValueAtTime(f1,t0+dur);
+    o.connect(this.env(t0,g,dur));o.start(t0);o.stop(t0+dur+.05) },
+  noise(dur,g,f,type='lowpass'){ if(!this.ctx)return; const t0=this.ctx.currentTime,n=this.ctx.sampleRate*dur|0;
+    const b=this.ctx.createBuffer(1,n,this.ctx.sampleRate),d=b.getChannelData(0);
+    for(let i=0;i<n;i++)d[i]=Math.random()*2-1;
+    const s=this.ctx.createBufferSource();s.buffer=b;
+    const filt=this.ctx.createBiquadFilter();filt.type=type;filt.frequency.value=f;
+    s.connect(filt);filt.connect(this.env(t0,g,dur));s.start(t0) },
+  click(){ this.init(); if(this.ctx)this.noise(.05,.05,900) },
+  chime(){ this.init(); this.tone(523,null,1.6,.08); this.tone(784,null,2.2,.05) },
+  sting(){ this.init(); this.tone(2200,180,.35,.16,'sawtooth'); this.noise(.25,.1,3000,'highpass') },
+  scream(){ this.init(); this.tone(400,2400,.5,.22,'sawtooth'); this.tone(3000,90,.6,.18); this.noise(.6,.14,2500,'bandpass') },
+  bell(){ this.init(); [523,659,784].forEach((f,i)=>setTimeout(()=>this.tone(f,null,2.6,.09),i*350)) },
+  chalk(){ this.init(); for(let i=0;i<7;i++)setTimeout(()=>this.noise(.09,.12,3500,'highpass'),i*260) },
+  droneStart(){ this.init(); if(!this.ctx||this.amb.length)return;
+    const g=this.ctx.createGain();g.gain.value=0;g.gain.linearRampToValueAtTime(.14,this.ctx.currentTime+4);g.connect(this.master);
+    [[55,'sine'],[55.8,'sine'],[110.3,'triangle']].forEach(([f,t])=>{const o=this.ctx.createOscillator();o.type=t;o.frequency.value=f;o.connect(g);o.start();this.amb.push(o)});
+    const n=this.ctx.sampleRate*2|0,b=this.ctx.createBuffer(1,n,this.ctx.sampleRate),d=b.getChannelData(0);
+    for(let i=0;i<n;i++)d[i]=Math.random()*2-1;
+    const s=this.ctx.createBufferSource();s.buffer=b;s.loop=true;
+    const fl=this.ctx.createBiquadFilter();fl.type='lowpass';fl.frequency.value=180;
+    const ng=this.ctx.createGain();ng.gain.value=.35;s.connect(fl);fl.connect(ng);ng.connect(g);s.start();
+    this.amb.push(s); this.ambG=g;
+    this.creakT=setInterval(()=>{ if(Math.random()<.5)this.tone(140,88,.5,.06,'sawtooth');
+      if(Math.random()<.25)this.noise(1.1,.03,1400,'bandpass') },9000); },
+  droneStop(){ if(!this.ctx)return; if(this.ambG){this.ambG.gain.linearRampToValueAtTime(0,this.ctx.currentTime+2)}
+    const A=this.amb; setTimeout(()=>A.forEach(x=>{try{x.stop()}catch(e){}}),2300); this.amb=[];
+    clearInterval(this.creakT);this.creakT=null },
+  heart(ms){ this.stopHeart(); this.heartT=setInterval(()=>{ if(!this.ctx)return;
+    this.tone(58,null,.16,.3); setTimeout(()=>this.tone(50,null,.14,.2),190) },ms) },
+  stopHeart(){ if(this.heartT){clearInterval(this.heartT);this.heartT=null} },
+  stopAll(){ this.droneStop(); this.stopHeart() }
+};
+$('#mute').textContent='音效：'+(AE.muted?'关':'开');
+
+(()=>{ const c=$('#noise'),x=c.getContext('2d'); c.width=c.height=140;
+  setInterval(()=>{ if(document.hidden)return; const d=x.createImageData(140,140);
+    for(let i=0;i<d.data.length;i+=4){const v=Math.random()*255|0;d.data[i]=d.data[i+1]=d.data[i+2]=v;d.data[i+3]=255}
+    x.putImageData(d,0,0) },100) })();
+
+/* =========================================================
+   通用 UI
+========================================================= */
+let toastT;
+function toast(msg,red){ const t=$('#toast'); t.textContent=msg; t.className=red?'on red':'on';
+  clearTimeout(toastT); toastT=setTimeout(()=>t.className='',3600) }
+function modal(html){ $('#modal').innerHTML=`<div class="mcard"><button class="x" data-act="mclose">×</button>${html}</div>`;
+  $('#modal').classList.add('on') }
+function mclose(){ $('#modal').classList.remove('on') }
+function flash(){ const f=$('#flash'); f.classList.remove('on'); void f.offsetWidth; f.classList.add('on') }
+
+let typeGen=0;
+function typeLines(el,lines,done){ const g=++typeGen; let li=0;
+  function next(){ if(g!==typeGen)return;
+    if(li>=lines.length){ if(g===typeGen&&done)done(); return }
+    const row=document.createElement('div'); el.appendChild(row);
+    const span=document.createElement('span'); row.appendChild(span);
+    const cursor=document.createElement('i'); cursor.className='cursor'; row.appendChild(cursor);
+    const text=lines[li]; let ci=0;
+    const tm=setInterval(()=>{ if(g!==typeGen){clearInterval(tm);return}
+      if(AE.ctx&&!AE.muted&&Math.random()<.4)AE.noise(.02,.02,2500,'highpass');
+      span.textContent=text.slice(0,++ci);
+      if(ci>=text.length){ clearInterval(tm); cursor.remove(); li++; setTimeout(next, li<lines.length-1?420:200) } },42) }
+  next() }
+
+/* =========================================================
+   路由与视图
+========================================================= */
+const route=()=>location.hash.replace(/^#\/?/,'');
+const esc=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;');
+
+const badge=`<svg width="76" height="76" viewBox="0 0 100 100" data-act="seal" style="cursor:pointer" title="校徽">
+<circle cx="50" cy="50" r="47" fill="none" stroke="#25322d" stroke-width="3"/>
+<circle cx="50" cy="50" r="38" fill="none" stroke="#9e2b25" stroke-width="1.5"/>
+<path d="M28 44 Q38 38 50 44 T72 44" fill="none" stroke="#25322d" stroke-width="3"/>
+<path d="M28 54 Q38 48 50 54 T72 54" fill="none" stroke="#25322d" stroke-width="3"/>
+<path d="M28 64 Q38 58 50 64 T72 64" fill="none" stroke="#25322d" stroke-width="3"/>
+<text x="50" y="26" text-anchor="middle" font-size="11" fill="#25322d" font-family="serif" letter-spacing="2">青川三中</text>
+<text x="50" y="86" text-anchor="middle" font-size="9" fill="#5a6357" font-family="serif">EST. 1979</text></svg>`;
+
+function scene(kind){ const s='fill="#8a8672"';
+  const map={
+    gate:`<rect x="20" y="34" width="10" height="66" ${s}/><rect x="110" y="34" width="10" height="66" ${s}/><rect x="14" y="26" width="112" height="10" ${s}/><rect x="0" y="100" width="140" height="4" ${s}/><rect x="58" y="44" width="24" height="6" ${s} opacity=".6"/>`,
+    build:`<rect x="24" y="42" width="92" height="58" ${s}/>${[0,1,2,3].map(i=>[0,1].map(j=>`<rect x="${34+i*20}" y="${52+j*20}" width="10" height="12" fill="#6e6a58"/>`).join('')).join('')}<rect x="0" y="100" width="140" height="4" ${s}/>`,
+    track:`<ellipse cx="70" cy="66" rx="58" ry="26" fill="none" stroke="#8a8672" stroke-width="6"/><ellipse cx="70" cy="66" rx="40" ry="16" fill="none" stroke="#8a8672" stroke-width="2"/><rect x="0" y="100" width="140" height="4" ${s}/>`,
+    trees:`${[10,32,54,76,98,120].map(x=>`<path d="M${x} 100 L${x+7} 30 L${x+14} 100 Z" ${s}/>`).join('')}<rect x="0" y="100" width="140" height="4" ${s}/>`,
+    river:`<path d="M0 70 Q20 62 40 70 T80 70 T120 70 T160 70" fill="none" stroke="#8a8672" stroke-width="3"/><path d="M0 84 Q20 76 40 84 T80 84 T120 84 T160 84" fill="none" stroke="#8a8672" stroke-width="3" opacity=".7"/><rect x="0" y="100" width="140" height="4" ${s}/>`,
+    old:`<rect x="30" y="36" width="80" height="64" ${s}/>${[0,1,2].map(r=>[0,1,2,3].map(c=>`<rect x="${38+c*18}" y="${44+r*18}" width="9" height="11" fill="#5c5848"/>`).join('')).join('')}<rect x="74" y="44" width="9" height="11" fill="#e8e2d2"/><circle cx="78.5" cy="46.5" r="1.6" fill="#3a382e"/><rect x="75.5" y="48.5" width="6" height="6.5" fill="#3a382e" opacity=".85"/><rect x="0" y="100" width="140" height="4" ${s}/>`
+  };
+  return `<svg viewBox="0 0 140 104" preserveAspectRatio="xMidYMid slice">${map[kind]}</svg>` }
+
+function groupPhoto(){ let p='';
+  for(let r=0;r<2;r++)for(let i=0;i<12;i++){ const x=12+i*10, y=r?58:40;
+    p+=`<circle cx="${x}" cy="${y}" r="3.4" fill="#6e6a58"/><rect x="${x-3.6}" y="${y+3.4}" width="7.2" height="${r?26:20}" fill="#6e6a58"/>` }
+  p+=`<circle cx="72" cy="52" r="3.2" fill="#c9c4b2" opacity=".5"/><rect x="69" y="55" width="6" height="26" fill="#c9c4b2" opacity=".5">`;
+  p=p.replace('</rect>','</rect>');
+  return `<svg viewBox="0 0 140 104" preserveAspectRatio="xMidYMid slice">${p}</svg>`.replace('</svg>','<rect x="0" y="96" width="140" height="4" fill="#8a8672"/></svg>') }
+
+function floorPlan(){ const room=(x,y,w,h,t)=>`<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="none" stroke="#5a6357"/><text x="${x+w/2}" y="${y+h/2+4}" text-anchor="middle" font-size="10" fill="#5a6357" font-family="serif">${t}</text>`;
+  return `<svg viewBox="0 0 320 130" style="max-width:480px;display:block;margin:20px 0">
+  ${room(20,15,60,40,'101 教室')}${room(90,15,60,40,'102 室')}${room(160,15,60,40,'103 教室')}${room(230,15,60,40,'104 教室')}
+  <g><rect x="90" y="15" width="60" height="40" fill="rgba(0,0,0,.12)"/><path d="M92 17 L148 53 M148 17 L92 53" stroke="#9e2b25" stroke-width="3"/><text x="120" y="38" text-anchor="middle" font-size="10" fill="#9e2b25" font-family="serif">已封存</text></g>
+  <rect x="20" y="55" width="270" height="16" fill="#efeadd" stroke="#5a6357"/><text x="155" y="67" text-anchor="middle" font-size="9" fill="#5a6357" font-family="serif">走廊（台阶共四十九级）</text>
+  ${room(20,71,80,40,'100 办公室')}${room(110,71,90,40,'105 绘画教室')}${room(210,71,80,40,'106 器材室')}
+  </svg>` }
+
+const paintingSVG=`<svg viewBox="0 0 420 320">
+<rect width="420" height="320" fill="#0b0b0d"/>
+<rect x="30" y="24" width="360" height="272" fill="none" stroke="#26262a" stroke-width="3"/>
+<g class="figure" style="transform-origin:210px 160px;transition:4s">
+<ellipse cx="210" cy="118" rx="34" ry="44" fill="#141416"/>
+<path d="M158 286 Q210 168 262 286 Z" fill="#101012"/>
+<g class="eye" style="opacity:.06;transition:3s"><circle cx="196" cy="110" r="2.6" fill="#e8e2d2"/><circle cx="224" cy="110" r="2.6" fill="#e8e2d2"/></g>
+</g>
+<text x="210" y="312" text-anchor="middle" font-size="11" fill="#3a3a3e" font-family="serif" letter-spacing="6">素 描 · 第 四 十 一 张</text></svg>`;
+
+const NAV=[['','首 页'],['about','学校概况'],['news','新闻中心'],['teachers','教师队伍'],['culture','校园文化'],['rules','规章制度'],['history','校史馆'],['library','图书馆'],['psych','心理咨询室'],['academic','教务系统']];
+function shell(r,inner,crumb){ const on=p=>(r===p||(p&&r.startsWith(p+'/')))?'on':'';
+  const today=new Date(); const wk='日一二三四五六'[today.getDay()];
+  const jub=(today.getMonth()===6&&today.getDate()===14)?`<div class="jubilee">今天是校庆日（7 月 14 日）。今晚 19:00 后请勿留校，熄灯后请勿应答。</div>`:'';
+  return `${jub}<header class="top"><div class="wrap">
+  <div class="topbar"><div class="brand">${badge}<div><h1>青川市第三高级中学</h1><div class="en">QINGCHUAN NO.3 HIGH SCHOOL · EST.1979</div></div></div>
+  <div class="datebar">今天是 ${today.getFullYear()} 年 ${today.getMonth()+1} 月 ${today.getDate()} 日 星期${wk}<br>校历第 47 教学年 · 期末阶段</div></div>
+  <nav class="main">${NAV.map(([p,t])=>`<a href="#/${p}" class="${on(p)}" data-act="nav">${t}</a>`).join('')}</nav>
+  </div></header>
+  <div class="marq wrap"><b>通知</b><span>7 月 14 日校庆日留校安排已下发至各班班主任 · 教务系统每晚 23:45—23:47 例行巡检，请勿在该时段登录 · 校史馆"1987 年专题陈列"因故延期，开放时间另行通知</span></div>
+  <main><div class="wrap">${crumb?`<div class="crumb">当前位置：${crumb}</div>`:''}${inner}</div></main>
+  <footer><div class="wrap">青川市第三高级中学 · 地址：青川市川北路 49 号 · 电话 0745-3-XXXX
+  <div class="flinks"><a href="#/about">学校概况</a> · <a data-act="icp" href="javascript:void(0)">川ICP备0870714号</a> · <a href="#/archive">旧档室</a> · <a href="#/rules">《学生守则》</a><br>
+  <span style="opacity:.55">© 1979—2026 青川市第三高级中学德育处 · 本站最后更新于某个星期四</span></div></div></footer>` }
+
+const NOTICES=[
+ ['关于 2026 年校庆日（7 月 14 日）留校安排的通知','该通知连续发布第 47 年。具体值班表另行下发。当晚熄灯后，如闻走廊点名声，属于传统活动环节，请各位同学在宿舍内保持安静。'],
+ ['寻物启事：高二（3）班李晓同学遗失校牌','校牌编号 0417。拾到者请送交德育处。李晓同学本人请尽快到教务处补办出入证。本启事长期有效。'],
+ ['教务系统例行维护公告','维护时间：每晚 23:45 — 23:47。该时段系统将自动登录一个账号进行巡检，期间请勿登录，以免数据冲突。'],
+ ['心理咨询室"树洞信箱"征稿启事','树洞信箱长期征稿，匿名投递，择优匿名选登。来信请写清你看到的东西，不必写你的名字。我们认得字迹。'],
+ ['校史馆"1987 年专题陈列"延期公告','因展柜玻璃反复出现雾状附着物，本周起闭馆整修。请勿自行翻动大事记。'] ];
+const NEWS=[
+ {d:'2019-05-28',t:'我校高三学生周雨桐荣获全国中学生作文大赛一等奖',body:'news-yu'},
+ {d:'2019-10-21',t:'我校第 32 届秋季运动会圆满举行',body:'news-run'},
+ {d:'2021-08-30',t:'食堂扩建工程顺利竣工',body:'news-cant'},
+ {d:'2023-04-07',t:'我校顺利通过市"平安校园"复评验收',body:'news-safe'},
+ {d:'2025-09-02',t:'寻物启事：高二（3）班李晓同学遗失校牌一枚',body:'news-tag'},
+ {d:'2026-03-15',t:'2026 年春季开学典礼暨优秀教师表彰大会举行',body:'news-open'} ];
+const NEWSBODY={
+ 'news-yu':`<p>近日，全国中学生作文大赛评选结果揭晓，我校高三（4）班周雨桐同学以《走廊尽头》一文荣获一等奖，系我市近十年最好成绩。以下为获奖作品节选——</p>
+ <p class="odd">"走廊尽头第四十九块地砖是松动的，我数过三遍。撬开它，下面还有一层更旧的地砖。旧的那层上刻着很多名字，笔画很深，像是从下面刻上来的。</p>
+ <p class="odd">最旧的那个名字只有一个字：蘅。它被后来的每一届用粉笔描过一遍。我不认识这个字。可我盯着它的时候，走廊尽头有人替我把它念了出来。"</p>
+ <p>周雨桐同学已转学，未能到场领奖。证书由班主任代为保管。</p>`,
+ 'news-run':`<p>10 月 18 日，我校第 32 届秋季运动会顺利举行。全校 413 名运动员参加了 14 个项目的角逐。</p>
+ <p class="odd">三千米项目结束后，医疗保障组向全体班主任重申：长跑途中，运动员若感到身后始终有人陪跑，属于常见的竞技心理现象，请勿中途回头确认；冲线之后，无论身后传来怎样的脚步声，请等它先停下，再转身向老师报告成绩。</p>
+ <p>本届运动会未发生任何安全事故。</p>`,
+ 'news-cant':`<p>历时十四个月，食堂扩建工程于本月竣工，新增餐位 410 个。</p>
+ <p class="odd">施工期间，于地块东侧发现旧教学楼地基向北延伸至食堂地下，砖石结构保存完好。经研究决定：地基维持原状，采用混凝土整体浇筑封护，今后食堂地下层不再规划任何功能用房。</p>
+ <p class="odd">竣工当日，全体施工人员已在《不翻动条款》上签字。</p>`,
+ 'news-safe':`<p>我校顺利通过市"平安校园"复评。评审组重点检查了宿舍点名制度、夜间巡楼制度与《学生守则》背诵情况，对我校"应答率"一项指标给予高度评价。</p><p>评审组原定的旧教学楼考察环节因故取消，考察材料改由德育处书面报送。</p>`,
+ 'news-tag':`<p>高二（3）班李晓同学遗失校牌一枚（编号 0417），请拾到者送交德育处。李晓同学本人请看到启事后尽快到教务处补办出入证。本启事长期有效。</p>`,
+ 'news-open':`<p>3 月 2 日，我校举行春季开学典礼。代理校长秦昼同志发表讲话，强调本学期继续落实"留"字方针：老师留得住，学生留得下，知识留得久。</p><p>典礼表彰了优秀教师。历史组陈守拙同志连续第 39 年获评"坚守奖"。</p>` };
+
+const V={};
+V['']=()=>shell('',`
+ <div class="home-grid">
+  <div>
+   <div class="headline"><span class="tag">头条</span>
+    <h3><a href="#/news/0" style="text-decoration:none" data-act="nav">我校高三学生周雨桐荣获全国中学生作文大赛一等奖</a></h3>
+    <p>以《走廊尽头》一文摘得一等奖，系我市近十年最好成绩。周雨桐同学已转学，证书由班主任代为保管。<a href="#/news/0" data-act="nav" style="color:var(--accent)">[详细]</a></p></div>
+   <ul class="newslist">${NEWS.map((n,i)=>`<li><time>${n.d}</time><a href="#/news/${i}" data-act="nav">${n.t}</a></li>`).join('')}</ul>
+  </div>
+  <div class="side"><h4>通知公告</h4>
+   <ul class="noticelist">${NOTICES.map((n,i)=>`<li><a href="javascript:void(0)" data-act="notice" data-i="${i}">${n[0]}</a></li>`).join('')}</ul>
+  </div>
+ </div>
+ <div class="gallery-strip"><h4 style="font-weight:900;letter-spacing:.15em;border-bottom:2px solid var(--ink);display:inline-block;padding-bottom:6px">校园风光</h4>
+  <div class="gstrip" style="margin-top:16px">
+   ${[['gate','校门'],['build','教学楼'],['track','操场'],['trees','白杨道'],['river','青川河'],['old','旧教学楼（已停用）']].map(([k,t])=>`<figure class="ph" data-act="pic" data-k="${k}" data-t="${t}">${scene(k)}<figcaption>${t}</figcaption></figure>`).join('')}
+  </div></div>`,'首 页');
+
+V['about']=()=>shell('about',`
+ <h2 class="page stamp">学校概况</h2><div class="crumb">首页 / 学校概况</div>
+ <div class="prose">
+ <p class="noind" style="font-weight:900;font-size:18px">校长致辞</p>
+ <p>欢迎来到青川三中。我校建校四十七年，最大的传统是"留"：老师留得住，学生留得下，知识留得久。</p>
+ <p>常有人问我，为什么我校建校以来从没有一名学生辍学。我说，因为我们从不放弃任何一个。</p>
+ <p class="odd">——一个都没有。</p>
+ <p>欢迎报考青川三中。来了，就别急着走。</p>
+ <p class="noind" style="text-align:right">代理校长&nbsp;秦昼</p>
+ <div class="dataline">
+  <div><b>1979</b><span>建校年份</span></div>
+  <div><b>413</b><span>在校生</span></div>
+  <div><b>41</b><span>教职工</span></div>
+  <div><b>0</b><span>累计辍学人数</span></div>
+ </div>
+ <p class="noind" style="font-weight:900;font-size:18px">历史沿革</p>
+ <p>1979 年 7 月 14 日，青川县第三中学奠基，首届招生 41 人。1987 年 7 月，新教学楼落成，旧教学楼同年停止使用。2003 年撤县设市，学校更名为青川市第三高级中学。</p>
+ <p>自建校起，我校毕业率始终保持百分之百。校训：入校即入静，落笔即落名。</p>
+ </div>`,'学校概况');
+
+V['news']=()=>shell('news',`
+ <h2 class="page">新闻中心</h2><div class="crumb">首页 / 新闻中心</div>
+ <ul class="newslist" style="margin-top:0">${NEWS.map((n,i)=>`<li><time>${n.d}</time><a href="#/news/${i}" data-act="nav">${n.t}</a></li>`).join('')}</ul>`,'新闻中心');
+V['news/']=(i)=>{ const n=NEWS[i]; if(!n)return V['404']();
+  return shell('news/'+i,`<h2 class="page" style="font-size:20px">${n.t}</h2>
+  <div class="meta">发布时间：${n.d} · 来源：校办 · 审核：德育处</div>
+  <div class="prose">${NEWSBODY[n.body]}</div>
+  <div class="backline"><a href="#/news">← 返回新闻列表</a></div>`,'新闻中心 / 正文') };
+
+V['teachers']=()=>shell('teachers',`
+ <h2 class="page">教师队伍</h2><div class="crumb">首页 / 教师队伍</div>
+ <div class="tgrid">
+  ${[['秦昼','代理校长 · 物理','head'],['华敛','教导主任 · 数学','norm'],['陈守拙','历史教师 · 工号 T-0870714','black'],
+     ['温言','心理教师 · 树洞信箱负责人','norm'],['洛平','数学教师','norm'],['祝余','英语教师','norm'],
+     ['郑还','物理教师','norm'],['白术','化学教师','norm'],['关山','生物教师','norm'],
+     ['铁凉','体育教师','norm'],['美术教师','（该岗位自 1987 年起空缺）','empty']].map(t=>{
+    const photo=t[2]==='black'?`<div class="tp" style="background:#111"></div>`
+      :t[2]==='empty'?`<div class="tp" style="background:repeating-linear-gradient(45deg,#c9c4b2 0 6px,#b8b4a2 6px 12px)"></div>`
+      :`<div class="tp"><svg viewBox="0 0 40 50" width="44"><circle cx="20" cy="14" r="9" fill="#7a7666"/><path d="M6 50 Q20 30 34 50 Z" fill="#7a7666"/></svg></div>`;
+    return `<div class="tcard" data-act="tea" data-n="${t[0]}">${photo}<h4>${t[0]}</h4><small>${t[1]}</small><span class="arrow">详 →</span></div>`}).join('')}
+ </div>`,'教师队伍');
+
+V['culture']=()=>shell('culture',`
+ <h2 class="page">校园文化</h2><div class="crumb">首页 / 校园文化</div>
+ <div class="song">
+  <p class="noind" style="font-weight:900;font-size:18px">校歌《青川谣》 <button class="btn line" style="margin:0 0 0 14px;padding:5px 16px;font-size:13px" data-act="song">播 放</button>
+  <button class="btn line" style="padding:5px 16px;font-size:13px" data-act="oldsong">查看旧版歌词（1987 年前）</button></p>
+  <div id="songbox">
+  <div class="songline">青川河水向东流，流过阶前四十九。</div>
+  <div class="songline">少年读书声琅琅，读罢青春读白头。</div>
+  <div class="songline">先生之风，山高水长。</div>
+  <div class="songline">一课既毕，各自还乡。</div>
+  </div>
+  <div class="tbox" style="margin-top:40px"><p class="noind" style="font-weight:900;font-size:18px">学生社团</p>
+  <table class="grid"><tr><th>社团</th><th>状态</th><th>备注</th></tr>
+  <tr><td>文学社</td><td>招新中</td><td>每学期编印《青川集》</td></tr>
+  <tr><td>绘画社</td><td style="color:var(--accent)">暂停活动</td><td>暂停原因：画室已移交。</td></tr>
+  <tr><td>朗诵社</td><td>招新中</td><td>活动时间：每晚 23:00（地点未注明）</td></tr>
+  </table></div></div>`,'校园文化');
+
+V['rules']=()=>shell('rules',`
+ <h2 class="page">规章制度</h2><div class="crumb">首页 / 规章制度</div>
+ <p style="color:var(--ink2);font-size:14px">现行《学生守则》共二十七条。第十三条至第二十六条涉密，仅教工可在教务系统查阅。以下展示其余各条。</p>
+ <ul class="rlist" style="margin-top:20px">
+  ${[['第一条','尊敬师长。课堂上听到点名，起身应答，声音清晰。'],
+     ['第二条','按时到校。迟到者在校门口登记姓名与缘由。'],
+     ['第三条','作业独立完成。抄来的字迹会认人。'],
+     ['第四条','爱护公物。损坏的桌子会记得是谁刻的字。'],
+     ['第五条','同桌之间互相检查考勤。同桌缺席超过三天，请上报班主任。'],
+     ['第六条','考试期间不得交头接耳。你的答案会被听见。'],
+     ['第七条','图书馆借书须按期归还。逾期不还者，将被记入名录。'],
+     ['第八条','不得在墙上刻字。已经有名字的地方，不要再叠。'],
+     ['第九条','食堂用餐保持安静。后厨重地，学生止步（地下层尤其止步）。'],
+     ['第十条','值日生擦黑板要擦干净。留半个字的，第二天会自己长全。'],
+     ['第十一条','宿舍熄灯时间为 23:40。熄灯后请及时就寝。'],
+     ['第十二条','不串宿舍。有些床铺夜里会换位置，不要数。']]
+   .map(r=>`<li><span class="no">${r[0]}</span><span>${r[1]}</span></li>`).join('')}
+  <li class="odd-row"><span class="no">第十三条</span><span>学生不得进入旧教学楼。<b>旧教学楼没有 102 室。</b></span></li>
+ </ul>
+ <div style="margin-top:34px;border:1px solid var(--line);background:var(--paper2);padding:20px 26px">
+  <p style="letter-spacing:.2em;color:var(--accent);font-weight:900">附：第二十七条</p>
+  <p class="odd" style="margin-top:10px;font-size:17px">熄灯后，若走廊尽头传来点名声，请保持安静——那是巡楼老师的例行工作。<b>念到你名字时，不要应答。</b></p>
+  <p style="font-size:13px;color:var(--ink2);margin-top:8px">（本条为建校以来唯一一字未改的条款。请全体同学、全体教工、以及其余读者共同遵守。）</p>
+ </div>`,'规章制度');
+
+V['history']=()=>shell('history',`
+ <h2 class="page stamp">校史馆</h2><div class="crumb">首页 / 校史馆</div>
+ <p style="color:var(--ink2);font-size:14px">本馆陈列我校 1979 年建校至今的大事记。翻阅时请轻一点，有些页翻不动。</p>
+ <ul class="rlist" style="margin-top:20px">
+  ${[['1979 年 7 月 14 日','青川县第三中学奠基。首届招生四十一人，全部到齐。'],
+     ['1979 年 9 月','首届开学典礼。首任校长在奠基碑前植白杨一株，成活。'],
+     ['1985 年','新任副校长到任。姓名栏依档案原文收录（原件虫蛀）。任内未在任何会议发言，但每份会议记录完整。'],
+     ['1987 年 7 月 14 日','新教学楼落成典礼如期举行。同日，旧教学楼停止使用，全部教具原地封存；102 室门洞以砖石封闭，此后不再编入校舍平面图。'],
+     ['1987 年 7 月 20 日','校务会议通过《旧教学楼封存方案》。原件存档案室（201 室）。'],
+     ['2003 年','撤县设市，学校更名为青川市第三高级中学。旧楼仍归本校代管。'],
+     ['2019 年 6 月','高三（4）班周雨桐同学转学。学籍注销。'],
+     ['2025 年 9 月','高二（3）班李晓同学休学（未归）。']]
+   .map((r,i)=>i===3?
+   `<li class="odd-row" style="flex-direction:column;gap:6px"><span class="no" style="width:auto">1987 年 7 月 14 日 <span style="text-decoration:line-through;opacity:.6;font-size:12px">（此页被反复翻阅，纸缘起毛）</span></span>
+     <span>${r[1]}</span>
+     <div style="border-left:3px solid var(--accent);padding:10px 16px;background:var(--paper2);font-size:14.5px;max-width:640px">
+      <div style="font-size:12px;color:var(--ink2);letter-spacing:.2em;margin-bottom:6px">参观留言 · 1987.7.14</div>
+      愿以此身，代他守门。这一页我翻不过去，后来的人也请轻一点。<br>——守拙（于馆内）</div></li>`
+   :`<li><span class="no">${r[0]}</span><span>${r[1]}</span></li>`).join('')}
+ </ul>
+ <p class="noind" style="font-weight:900;font-size:18px;margin-top:36px">馆藏旧影</p>
+ <div class="gstrip">
+  <figure class="ph" data-act="oldpic" data-t="1987 年·封存前的旧教学楼">${scene('old')}<figcaption>封存前的旧教学楼</figcaption></figure>
+  <figure class="ph" data-act="oldpic" data-t="1979 年·首届毕业生合影">${groupPhoto()}<figcaption>首届毕业生合影</figcaption></figure>
+ </div>
+ <p class="noind" style="font-weight:900;font-size:18px;margin-top:36px">旧教学楼一层平面图（复刻件）</p>
+ ${floorPlan()}`,'校史馆');
+
+const LIB=[
+ {k:['校史','青川三中'],t:'《青川三中校史（1979—2003）》',sub:'馆藏号 K/087 · 仅限教工外借 · 馆内阅览需登记',
+  body:()=>S.auth?'<p>（翻开摘要页）1987 年 7 月 14 日：新楼落成；旧楼封存。封存原因栏——空白。整页只盖了一方红章，章文为"继续点名"。</p>':'<p>（需要刷卡。请先在教务系统登录你的账号。）</p>'},
+ {k:['日志','校务'],t:'《校务日志（1987 年 6—7 月）· 残卷》',sub:'电子化试读 · 仅前 3 页 · 后文虫蛀',
+  body:()=>`<p><b>七月十四日　阴。</b>新楼典礼很成功，领导走了以后，学校安静得能听见河水。</p>
+  <p>19:40，有人报告旧楼三层亮灯。我带陈守拙过去。102 室的门关着，门缝里闻得到松节油的味道。推开门，黑板上有字，粉笔还是湿的——<span class="odd">"第一课：像。画得像的，留下来当像。"</span></p>
+  <p>画架上共四十一张素描。我们数了三遍。全校名册上是四十一个名字，可四十个学生站在我们身后发抖。少的那一个是谁，我们都说不出口。说不出口，所以后来谁也没提。</p>
+  <p>封门那天，陈守拙往墙里放了一块黑板擦。他说，总得有人留下来擦黑板。（第 4 页起虫蛀。）</p>`},
+ {k:['作文','雨桐','走廊','大赛'],t:'《全国中学生作文大赛获奖作品集（2019）》',sub:'馆藏号 I/411 · 可外借',
+  body:()=>`<p>……（前文与官网新闻一致）……</p>
+  <p class="odd">我把地砖放回去的时候，发现新地砖的背面有一行铅笔字，被水泡过，只能认出半句："轮到描名字的人，先想好描谁。"</p>
+  <p class="odd">走廊很长。我往回走的时候数了数，从尽头到教室门口，是四十九步。可是我明明只走了四十一步。多出来的八步，踩起来没有声音。</p>
+  <p>——周雨桐《走廊尽头》（全文完）</p>`},
+ {k:['102','基建','图纸','平面'],t:'《基建档案 · 1987》',sub:'馆藏号 J/102 · 图纸袋缺号',
+  body:()=>`<p>图纸缺失。据管理员回忆：1987 年版的平面图上，102 室的位置画的是一间教室；而再早一版上，那个位置什么都没有——不是空房间，是连墙都没有画。</p><p>布面装订的档案盒内侧写着一行小字：盒子里数出来的份数，与登记簿对不上时，以登记簿为准。</p>`},
+ {k:['先生','副校长'],t:'检索受限',sub:'',body:()=>`<p>您要找的是不是："副校长（1985—1987 年在任）"？</p><p>该条目姓名栏空缺（原件虫蛀），照片遗失。任职期间出席全部会议，出席名单上永远排在最后一位，签到笔迹与会议记录正文完全一致。</p>`},
+ {k:['点名','名册','名录'],t:'——',sub:'',body:()=>`<p style="color:var(--accent)">检索词包含受限字词，本次检索已上报德育处。</p><p style="font-size:13px;color:var(--ink2)">（请勿反复检索。反复检索会被记为"预习"。）</p>`}
+];
+V['library']=()=>shell('library',`
+ <h2 class="page stamp">图书馆</h2><div class="crumb">首页 / 图书馆</div>
+ <div class="tbox" style="margin-top:0">
+  <p class="noind" style="font-weight:900;font-size:18px">馆藏检索</p>
+  <div style="display:flex;gap:10px;margin:16px 0;flex-wrap:wrap">
+   <input id="libq" style="flex:1;min-width:220px;border:1px solid var(--ink);background:transparent;padding:9px 12px" placeholder="输入书名、篇名或关键词……">
+   <button class="btn" data-act="search" style="margin-top:0">检 索</button>
+  </div>
+  <div id="libres"></div>
+ </div>
+ <div style="margin-top:40px"><p class="noind" style="font-weight:900;font-size:18px">入馆须知</p>
+ <ul class="rlist">
+  <li><span class="no">其一</span><span>开放时间 8:00 — 21:40。闭馆音乐响起后请立即离馆，不要等第二遍。</span></li>
+  <li><span class="no">其二</span><span>借阅逾期将被记入名录。名录每年公示一次，公示地点：旧楼一层。</span></li>
+  <li><span class="no">其三</span><span>本馆在册藏书 41,779 册，其中 <a href="javascript:void(0)" data-act="hiddenbooks" style="color:var(--accent)">41 册</a>不可被检索。</span></li>
+ </ul></div>`,'图书馆');
+
+V['psych']=()=>shell('psych',`
+ <h2 class="page stamp">心理咨询室 · 树洞信箱</h2><div class="crumb">首页 / 心理咨询室</div>
+ <p style="color:var(--ink2);font-size:14px">匿名投递，择优匿名选登。你写下的每一个字都会被认真阅读。</p>
+ <div class="letter"><h5>来 信 · 选 登（一）</h5>
+  <p>教室的灯总坏在同一个位置，第三排靠窗。修过三次，第二天又是黑的。</p>
+  <p>务必当没看见。我们都当没看见。</p>
+  <p>系统一样的东西每天都在看我们：考勤、成绩，还有一些我根本没听过名字的名册。</p>
+  <p>登进去你会明白的。我的学号是 20190417。我是 4 月 17 日那天报到的转学生，学号里带着那天。</p>
+  <p>密码是我报到那天的倒影——2019 年 4 月 17 日，倒过来写，一位一位倒。</p>
+  <p>录名册的第二天，那个人就转学了。所以熄灯后走廊尽头的点名声，别应。</p>
+  <div class="sig">—— 匿名</div></div>
+ <div class="letter"><h5>来 信 · 选 登（二）</h5>
+  <p>坐我前排的女生转学了。桌子第二天就搬空了，可每天早读，我都能听见她翻书的声音。从旧楼那边传来，一页，一页，很慢。</p>
+  <p>她的名字我写在这里，怕以后没有人记得：周雨桐。作文写得全校最好。她获奖那天说，走廊尽头第四十九块地砖是松的，撬开下面有字。</p>
+  <p>后来老师让删掉这段话。大家就都忘了。我没有忘，我把它寄进了树洞。</p>
+  <div class="sig">—— 匿名</div></div>
+ <div class="letter reply"><h5>温老师回复（二）</h5>
+  <p>同学你好。你描述的情况已记录在册（第 41 份）。</p>
+  <p>请不要再观察第三排靠窗的灯，也请不要在熄灯后数地砖。</p>
+  <p>本周五放学后请留校一小时，我们在旧楼一层办公室谈谈。届时不必敲门——<b>门会自己开。</b></p>
+  <div class="sig">—— 温</div></div>
+ <div class="tbox"><p class="noind" style="font-weight:900;font-size:18px">投递树洞</p>
+  <textarea id="treebox" placeholder="写下你的秘密。不必署名。"></textarea>
+  <button class="btn" data-act="tree">投 递</button>
+  <div id="treereply"></div></div>`,'心理咨询室');
+
+V['academic']=()=>shell('academic',`
+ <h2 class="page">教务系统</h2><div class="crumb">首页 / 教务系统</div>
+ <div class="acad">${S.auth?acadInner():`
+  <div class="loginbox" id="loginbox">
+   <h3>用 户 登 录</h3>
+   <div class="fld"><label>学号 / 工号</label><input id="lid" autocomplete="off"></div>
+   <div class="fld"><label>密码</label><input id="lpw" type="password" autocomplete="off"></div>
+   <button class="btn" data-act="login" style="width:100%">登 录</button>
+   <p class="hintline">首次使用请联系教务处。<br><span style="color:var(--accent)">连续错误五次，系统将自动上报德育处。</span></p>
+  </div>`}</div>`,'教务系统');
+
+function acadInner(){ const t=S.auth.role;
+ return `<div class="acad-top"><b>青川三中教务管理系统 v1.987</b>
+  <span class="who">当前身份：<i>${S.auth.role==='t'?'教工':'学生'} ${S.auth.name}</i>（${S.auth.id}）&nbsp;<button class="btn line" style="padding:3px 12px;font-size:12px;margin:0" data-act="logout">注销</button></span></div>
+ <div class="tabs">${t==='s'
+   ?`<button data-act="atab" data-t="grade" class="${!S.aTab||S.aTab==='grade'?'on':''}">成绩单</button>
+     <button data-act="atab" data-t="sched" class="${S.aTab==='sched'?'on':''}">课表</button>
+     <button data-act="atab" data-t="mail" class="${S.aTab==='mail'?'on':''}">站内信${S.mail?'':'<span class="dot"></span>'}</button>
+     <button data-act="atab" data-t="notice" class="${S.aTab==='notice'?'on':''}">通知</button>`
+   :`<button data-act="atab" data-t="tnotice" class="${!S.aTab||S.aTab==='tnotice'?'on':''}">内部通知</button>
+     <button data-act="atab" data-t="stu" class="${S.aTab==='stu'?'on':''}">学生档案</button>
+     <button data-act="atab" data-t="rules" class="${S.aTab==='rules'?'on':''}">守则（涉密条款）</button>`}</div>
+ <div id="atabbody">${acadTab()}</div>`}
+
+function acadTab(){ const t=S.auth.role;
+ if(t==='s'){
+  if(S.aTab==='mail')return mailView();
+  if(S.aTab==='notice')return noticeView('s');
+  if(S.aTab==='sched')return `<table class="grid"><tr><th></th><th>周一</th><th>周二</th><th>周三</th><th>周四</th><th>周五</th></tr>
+   ${['早读','第1节','第2节','第3节','第4节','晚自习'].map((r,ri)=>`<tr><th>${r}</th>${['语文,数学,英语,历史,物理','数学,英语,语文,化学,生物','英语,历史,语文,数学,——','物理,生物,数学,英语,语文','化学,语文,物理,历史,数学','熄灯前点名,英语听力,自习,自习,周记'].split('|')[ri].split(',').map(c=>`<td class="${c==='——'?'odd':''}" ${c==='——'?'title="此格在所有版本课表上都存在，但没有任课教师。请按时到。"':''}>${c}</td>`).join('')}</tr>`).join('')}</table>
+   <p style="font-size:13px;color:var(--ink2)">提示：将鼠标悬停在异常格子上。</p>`;
+  return `<table class="grid"><tr><th>科目</th><th>分数</th><th>备注（悬停查看）</th></tr>
+   ${[['语文',92,'作文《走廊尽头》曾送市里参评，评语遗失。'],['数学',88,'该生演算纸背面反复出现同一句：还有一页。'],['英语',104,'听力部分满分。该生称"听到的和录音带不一样"。'],['物理',40,'该生多次反映物理课上能听见楼上讲课。经查：教室上方为四楼，无课程安排。'],['化学',37,'实验课缺勤。该生称实验室镜子里的自己动作较慢。'],['生物',31,'标本课缺勤。'],['音乐',0,'缺考。琴房自 1987 年停用。']]
+   .map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td><td><span class="rem" title="${r[2]}">${r[2]}</span></td></tr>`).join('')}</table>
+   <p style="font-size:13px;color:var(--ink2)">总分 392 · 班级排名 41 / 41</p>`+noticeView('s',true);
+ }
+ if(S.aTab==='stu')return `<div style="display:flex;gap:10px;margin:16px 0"><input id="stuq" placeholder="输入学生姓名或学号……" style="flex:1;border:1px solid var(--ink);background:transparent;padding:9px 12px"><button class="btn" data-act="stuq" style="margin-top:0">查 询</button></div><div id="stures"></div>`;
+ if(S.aTab==='rules')return `<table class="grid">${RULES13.map(r=>`<tr><td style="width:80px;color:var(--accent);font-weight:600">${r[0]}</td><td>${r[1]}</td></tr>`).join('')}</table>`;
+ return noticeView('t');
+}
+const RULES13=[['第十三条','旧教学楼不属于本校。所以，进入它不算违纪。'],['第十四条','不要数旧楼的台阶。'],['第十五条','如果已经数了，不要数第二遍。'],['第十六条','旧楼三层没有窗户。如果看到窗户，不要看窗户里面。'],['第十七条','102 室不存在。'],['第十八条','如果 102 室的门开着，它对你也不存在。'],['第十九条','点名不是点名。是招生。'],['第二十条','美术课在本校已停开。请勿接受任何一位美术老师的授课邀请。'],['第二十一条','本校美术教师编制为 0。见到美术教师请立即上报德育处。'],['第二十二条','（本条字迹被水浸过，无法辨认）'],['第二十三条','不要读第二十二条。'],['第二十四条','校庆日当晚，全体学生应于 19:00 前回到宿舍。枕下请压一张白纸。'],['第二十五条','白纸上不要写自己的名字。'],['第二十六条','如果纸上有字了，闭上眼，把今天再过一遍。过到哪，算哪。']];
+
+function noticeView(role,append){ const items=role==='s'
+ ?[['关于 2026 年春季学期期末考务安排的通知',0,'s1','snote'],['校庆日留校值班安排（教工版）',1],['《学生守则》涉密条款修订说明',1],['旧教学楼封存会议纪要',1],['档案迁移通告',1]]
+ :[['关于旧教学楼封存情况的会议纪要（摘）',0,'m1','tnote'],['关于本学年校庆日"留校"安排的通知',0,'m2','tnote'],['关于档案迁移至 201 室的通告',0,'m3','tnote'],['《学生守则》第 13—26 条（教工参阅版）',0,'m4','tnote']];
+ return `${append?'':'<div style="margin-top:16px">'}${items.map(n=>`<div class="notice-item ${n[1]?'locked':''}" data-act="${n[1]?'lockednote':n[3]}" data-i="${n[2]||n[0]}"><span>${n[0]}</span><span class="lock">${n[1]?'［锁］ 权限不足':'阅 览'}</span></div>`).join('')}${append?'':'</div>'}`}
+
+const TNOTICE={
+ s1:`<p>期末考试定于 7 月 8 日至 7 月 11 日举行，共设考场 41 个。请各位同学按考号入场，对号入座。</p>
+ <p class="odd">第 41 考场设于旧教学楼 102 室。该考场无需携带任何文具。开考后，如听到点名，请勿应答——那是清点考卷的声音。</p>
+ <p style="text-align:right">教务处</p>`,
+ m1:`<p>时间：1987 年 7 月 20 日　地点：校长室（记录残缺）　出席：校长、教导主任、总务主任、陈（守拙）……其余涂抹</p>
+ <p>一、102 室封存方案通过。封存期间钥匙不再配发，原钥匙于会后投入青川河。</p>
+ <p>二、"画室材料"全部就地掩埋于楼后花圃。花圃改制绿化带，禁止翻动。</p>
+ <p>三、陈同志反映"晚上仍有讲课声"一事，经讨论定为回音，不予立项。</p>
+ <p class="odd">四、鉴于 7 月 14 日当晚值班安排存在疏漏，自明年起设立"校祭值班制度"，全员轮流。职责一条：点名，并且不应答。</p>
+ <p>五、本纪要不外传。谁抄了，谁留下。</p>`,
+ m2:`<p>各教研组：定于 7 月 14 日（校庆日）晚 19:00 起全员留校。学生宿舍熄灯后由值班教师巡楼。巡楼要点重申：</p>
+ <p>一、经过旧楼时不得停留，不得计数台阶（共四十九级。数完的人会想再数一遍）。</p>
+ <p class="odd">二、若闻点名声，核对名单与本班在册学生一致后可继续前行。<b>若名单上出现你自己的名字，请立即默诵校歌旧版第一段，并加快脚步。</b></p>
+ <p>三、巡楼结束在《值班簿》签名。请注意：簿子上可能已经有人替你签过了。</p><p style="text-align:right">德育处</p>`,
+ m3:`<p>因档案馆整修，1987 年前后全部校务档案已迁移至档案馆 <b>201 室</b>。</p>
+ <p class="odd">施工时工人将门牌挂反，一直未及更正——来办事的老师请留意，别在"102"门口等开门。<b>有些门牌，正着挂和倒着挂，开的不是同一间屋。</b></p>
+ <p style="text-align:right">总务处</p>
+ <p style="border-top:1px dashed var(--line);padding-top:12px"><a href="#/201" data-act="nav" style="color:var(--accent)">前往档案馆 201 室 →</a></p>`,
+ m4:RULES13.map(r=>`<p><b style="color:var(--accent)">${r[0]}</b>　${r[1]}</p>`).join('')
+};
+function mailView(){ return S.mail?`
+ <div class="mail"><div class="mh">发件人：周雨桐（2019-06-02 23:47）· 标题：如果你登进来</div>
+ <p>你能登进这个系统，说明你找到了那些字。很好。时间不多，我长话短说。</p>
+ <p>我是周雨桐。档案里写我"转学"。你可以去查我的学籍状态——它现在是"注销"，但注销原因那一栏是空的，光标一直在那里闪，像是在等谁填。</p>
+ <p>我在图书馆翻过 1987 年的校务日志。旧教学楼不是"停用"，是"封存"。102 室的门不是锁上的，<b>是砌进去的</b>。砌墙名单里有一个人的名字被涂掉了，只看得清一个"陈"字。</p>
+ <p>历史组的陈守拙老师，1987 年就在这所学校。他的密码从来没换过——他自己说，因为"那一页永远翻不过去"。</p>
+ <p class="odd">去校史馆，翻到那一页。日期就是钥匙。</p>
+ <p>拿到之后，用老师的身份去看内部通知。看完你会明白，学校每年 7 月 14 日让大家"留校"，是为了什么。</p>
+ <p class="odd">《档案迁移通告》的末尾有一扇门。门牌这种东西——记得看清楚它是正着挂，还是倒着挂。</p>
+ <p class="odd">最后：里面有一个点名册。校规第二十七条你背过吗？现在去背。背熟。</p>
+ <p style="text-align:right">—— 雨桐</p></div>`
+ :`<div style="padding:20px 0"><button class="btn" data-act="readmail">打开未读信件（1）</button></div>`}
+
+const ENDNAMES={graduate:'毕业',successor:'继任者',noname:'无名',detention:'留堂',witness:'目击者',intruder:'越界者'};
+V['archive']=()=>shell('archive',`
+ <h2 class="page">旧档室</h2><div class="crumb">首页 / 旧档室</div>
+ <p style="color:var(--ink2);font-size:14px">这里存放已经归档的结局。未归档的，档案科不承认发生过。</p>
+ <table class="grid" style="max-width:560px"><tr><th>编号</th><th>结局</th><th>状态</th></tr>
+ ${Object.keys(ENDNAMES).map((k,i)=>`<tr><td>归-00${i+1}</td><td>${EN[k]?ENDNAMES[k]:'□□□'}</td><td>${EN[k]?'已归档':'档案缺失'}</td></tr>`).join('')}</table>
+ <p style="font-size:13px;color:var(--ink2)">已归档 ${Object.keys(EN).length} / 6。</p>`,'旧档室');
+
+V['404']=()=>shell('404',`<h2 class="page">页面不存在</h2><p style="margin-top:20px">你要找的页面不存在——或者它存在，只是不肯见你。</p><p><a href="#/" style="color:var(--accent)">返回首页</a></p>`,'');
+
+/* =========================================================
+   里网  #/201
+========================================================= */
+const LDOCS={
+ roster:{no:'卷一 · 在册名录',t:'名 录',html(){ const rows=ROSTER.map(r=>`<tr><td class="y">${r[0]}</td><td class="n">${r[1]}</td><td>${r[2]||'&nbsp;'}</td></tr>`).join('');
+  const last=S.called?`<tr style="background:rgba(161,22,22,.15)"><td class="y">2026</td><td class="n">${S.called}</td><td>刚刚应到</td></tr>`
+   :`<tr><td class="y">2026</td><td class="n" style="color:#3c3c3e">＿＿＿</td><td class="dim">等待补录</td></tr>`;
+  return `<table><tr><td class="y">年份</td><td class="n">姓名</td><td>备注</td></tr>${rows}${last}</table>
+  <p class="dim">历年在册 47 人，另有 1 席待补。每年 7 月 14 日，先生念到一个名字，教室里就多一个学生。</p>
+  ${ALLREAD()?`<p class="red" style="margin-top:34px;letter-spacing:.2em">先生的位置，还空着。</p><button class="lyn-btn" style="margin-left:0" data-act="take">坐 下 来</button>`:''}`}},
+ log:{no:'卷二 · 校务日志补遗',t:'校务日志 · 补遗（1987）',html:()=>`
+  <p><b>七月十四日　阴。</b></p><p>新楼典礼很成功。领导走了以后，学校安静得能听见河水。</p>
+  <p>19:40，有人报告旧楼三层亮灯。我带陈守拙过去看。102 室的门关着。我们从门缝里闻到松节油的味道。</p>
+  <p>推开门的时候，黑板上有字，粉笔还是湿的——</p><p class="red">"第一课：像。画得像，就留下来当像。"</p>
+  <p>画架上共四十一张素描。我们数了三遍。全校名册上是四十一个名字，可四十个学生站在我们身后发抖。</p>
+  <p class="red">少的那一个是谁，我们都说不出口。因为说不出口，所以后来谁也没有提。</p>
+  <p>封门的时候，陈守拙往墙里放了一块黑板擦。他说，总得有人留下来擦黑板。</p><p class="dim">—— 值班教师　周</p>`},
+ painting:{no:'卷三 · 实物档案',t:'先生的画',html:()=>`
+  <div class="painting">${paintingSVG}</div>
+  <p>这不是一幅画。这是一扇没有关好的窗。</p>
+  <p>先生在 1987 年 7 月 14 日晚上了第一课。他的学生画他——画得越像，就离他越近。四十个人里，有一个画得最像。</p>
+  <p>先生很喜欢他。于是先生让全班都画他。</p>
+  <p class="red">从那以后，每年 7 月 14 日晚上，先生都要点名。他念一个名字，教室里就多一个学生。</p>
+  <p>教室一直在招生。教室从来没有毕业。</p>`},
+ rollcall:{no:'卷四 · 今日课务',t:'点 名 册',html:()=>`
+  <p class="dim">1987 年 7 月 14 日，四十一张画。本班在册四十一个名字，第三排靠窗的座位，自那天起一直空着。</p>
+  <p class="red">校规第二十七条你已经背熟了吧。<b>念到你名字时，不要应答。</b></p>
+  <div class="seats">${(()=>{let h='';for(let i=0;i<41;i++){ if(i===17)h+=`<div class="seat empty">${S.called?'':'空'}</div>`; else h+=`<div class="seat">${41-i}</div>`}return h})()}</div>
+  ${S.called?`<p class="red">应到。<b>${S.called}</b>，已应到。41 人，到 41 人。满员了。点名开始。</p>`
+  :`<div style="display:flex;gap:0;margin-top:20px"><input id="rcname" class="lyn-input" placeholder="你的名字" autocomplete="off"><button class="lyn-btn" data-act="rollcall">应 到</button></div>
+  <p class="dim" style="margin-top:14px;font-size:13px">（你确定要应吗？再想一想第二十七条。）</p>`}`},
+ leave:{no:'卷五 · 教务窗口',t:'退 学 申 请',html:()=>`
+  <p>凡名录在册者，其直系亲属或受托人，可代为办理退学手续。办理成功后，此人从教室除名，先生不再点名。</p>
+  <p class="red">本校自 1979 年建校以来，尚无一人办理成功。</p>
+  <div style="margin-top:26px"><div style="margin-bottom:12px"><span class="dim" style="width:70px;display:inline-block">姓　名</span><input id="lvname" class="lyn-input" placeholder="要替谁办"></div>
+  <div style="margin-bottom:12px"><span class="dim" style="width:70px;display:inline-block">理　由</span><input id="lvwhy" class="lyn-input" placeholder="（可不填）"></div>
+  <button class="lyn-btn" data-act="leave">递 件</button><span id="lvmsg" class="dim" style="margin-left:16px"></span></div>`},
+ note:{no:'卷六 · 移交清单',t:'致 继 任 者',html:()=>`
+  <p>你会看到这一页，说明你把每一页都看完了。很好。先生需要仔细的学生。</p>
+  <p>守拙守了三十九年。该画的他都画完了，该擦的他也都擦了。他说他想休息。</p>
+  <p>椅子在名录那页的末尾，面朝黑板，落了一层粉笔灰。你坐下来，轻轻吹掉，就是接任。</p>
+  <p class="red">不坐也可以。看完就走吧。但你既然已经知道了名录的事——往后每年 7 月 14 日晚上，你都会听见点名声。</p>
+  <p>听见了，别应。</p>`}
+};
+
+function renderLynch(){ document.title='点名中';
+  document.body.classList.add('inlyn'); AE.droneStart();
+  const cdOn=!!S.cd; const left=cdOn?Math.max(0,Math.ceil((S.cd-Date.now())/1000)):0;
+  $('#app').innerHTML=`<div class="wrap" style="padding-top:30px">
+  <div style="display:flex;justify-content:space-between;border-bottom:1px solid #2a2a2c;padding-bottom:10px;margin-bottom:24px">
+   <span style="letter-spacing:.3em;color:var(--lyn-red2)">２０１ 室 · 门牌已正过来</span>
+   <span style="font-size:13px;color:#6e6a60">档案 ${Object.keys(S.lynchRead).length}/6 · 身份：教工 T-0870714 · <a href="javascript:void(0)" data-act="lynchout" style="color:#8a8678">离校</a></span></div>
+  <div class="cd-bar ${cdOn?'on':''}"><span>点名进行中——请在钟走完之前办理手续</span><b id="cdtext">${String(Math.floor(left/60)).padStart(2,'0')}:${String(left%60).padStart(2,'0')}</b></div>
+  <div class="lyn"><div class="lyn-nav">
+   ${['roster|名录','log|日志补遗','painting|先生的画','rollcall|点名册','leave|退学申请','note|致继任者'].map(x=>{const [k,t]=x.split('|');
+     return `<button data-act="ldoc" data-k="${k}" class="${S.lynchTab===k?'on':''}">${t}${S.lynchRead[k]?'':' ·'}</button>`}).join('')}
+   <span class="sl">凡在册者 终有一课</span></div>
+  <div class="lyn-doc">${(()=>{const d=LDOCS[S.lynchTab];return `<h3>${d.t}</h3><div class="docno">${d.no} · 已阅 ${Object.keys(S.lynchRead).length} / 6</div>${d.html()}`})()}</div></div></div>`;
+  if(cdOn)AE.heart(left<30?420:900) }
+
+function lynchGuard(){
+ if(!S.auth){ S.tres++; persist();
+  if(S.tres>=3){ endGame('intruder'); return }
+  flash(); AE.sting();
+  toast(S.tres===1
+    ?'［201 室］门纹丝不动。这扇门只认教师的卡——先在教务系统登录教工账号，再回到这扇门前来。'
+    :'［201 室］你又来了。门缝后面有人在看你。下一次，就不会只是"拒绝"这么简单了。',true);
+  setTimeout(()=>{ if(route()==='201')location.hash='#/' },1000); return }
+ if(S.auth.role!=='t'){ toast('［201 室］学生的卡刷不开这扇门。你需要借一张教师的卡。',true);
+  setTimeout(()=>{ if(route()==='201')location.hash='#/' },1000); return }
+ if(sumKey()<45000){ S.shallowN=(S.shallowN||0)+1; persist();
+  if(S.shallowN>=2){ endGame('witness'); return }
+  flash(); AE.sting();
+  toast('［201 室］门开了一条缝，又合上了。里面有人说：你来得太快，看得太少。回去把校史、守则、通知和信都看完再来。（不会有第三次提醒。）',true);
+  setTimeout(()=>{ if(route()==='201')location.hash='#/' },1200); return }
+ if(!S.introDone){ S.introDone=true; persist();
+  const ov=$('#overlay'); ov.classList.add('on'); ov.innerHTML='<div id="type-layer"></div>';
+  typeLines($('#type-layer'),['> 接入点：档案馆 201 室（门牌已正过来）','> 身份核验：教工 T-0870714 …… 通过','> 欢迎。','> 你来得比点名晚，但比散场早。','> 请慢慢看。先生不催。'],()=>{ ov.classList.remove('on'); ov.innerHTML=''; renderLynch() });
+  return }
+ renderLynch() }
+
+/* =========================================================
+   结局系统
+========================================================= */
+const ENDDATA={
+ graduate:{paper:true,t:'毕业',no:'归-001 · 唯一成功办理的退学',
+  body:n=>n==='周雨桐'
+  ?`<p>窗口的老师看着"周雨桐"三个字，停了很久很久。</p><p>他说："你是这四十七年来，第一个替她来的。"</p><p>划名的时候，整栋旧楼的灯，一层一层，安静地熄灭。当晚没有点名。</p><p>第二天早读，第三排靠窗那张空了七年的桌子上，绿萝活了。</p><p>你在毕业证书上看到自己的名字。你这一局，读得很仔细——先生说过，他喜欢仔细的学生，但那是另一句了。</p>`
+  :`<p>名单上划掉一个名字。旧楼三层，有一扇窗的灯灭了。</p><p>当晚点名，先生在那个名字的位置停顿了很久，然后合上了册子。</p><p>你办完手续离开时，保安头也不抬地放行了。他见过太多来办这件事的人——不，其实你是第一个。</p>`,
+  stat:n=>`被退学者：${n} · 本局在校 ${fmtDur()} · 密码错误 ${S.fails} 次`},
+ successor:{paper:false,t:'继任者',no:'归-000 · 不对外归档',
+  body:()=>`<p>粉笔灰吹开的时候，你看见椅子面朝黑板。黑板上有半行没写完的字。</p><p>你拿起粉笔，很自然地把它写完了。第四十一张素描，是你。</p><p>每年 7 月 14 日晚上，你会念到很多名字。你会很有耐心。你不着急。</p><p class="red">教室从来没有毕业。现在，教室是你了。</p>`,
+  stat:()=>`接任日期：7 月 14 日 · 任期：至今 · 本局档案阅读 6/6`},
+ noname:{paper:false,t:'无名',no:'归-048 · 待补录',
+  body:()=>`<p>钟走完的时候，走廊尽头的手电光照过来了。</p><p>老师在册子上写下你的名字，字很工整。你的座位在第三排靠窗——那盏灯总坏的位置，从此归你。</p><p>你再也不用回家了。</p><p class="red">其实你本来有一次机会。第二十七条，白纸黑字，第十三条旁边就印着。可惜应答之前，你没有回头去读。</p>`,
+  stat:()=>`应到人：${S.called} · 名录编号：048 · 等待补录：完成`},
+ detention:{paper:false,t:'留堂',no:'归-00X · 上报记录',
+  body:()=>`<p>系统锁定。德育处的脚步声比想象中轻。</p><p>他们说只是谈谈，谈完就可以回家。谈话在一楼的办公室进行。后来换到了旧楼的一楼。</p><p>办公室的门牌是 102。</p><p class="red">可校规里写得很清楚：旧教学楼没有 102 室。所以这间办公室——也不存在。不存在的东西，装得下很多人。</p>`,
+  stat:()=>`密码错误：${S.fails} 次 · 上报事由："反复试探他人之钥"`},
+ witness:{paper:false,t:'目击者',no:'归-00X · 阅读记录异常',
+  body:()=>`<p>先生不喜欢没有预习的学生。</p><p>你翻页翻得太快了。这里的每一页都是人命，你只用了一分钟。</p><p>"重读，"他说，"从第一页开始，慢慢读。读完校史，读完守则，读完每一封信。"</p><p class="red">教室的门在你身后合上。这一课很长。好消息是：你有的是时间。</p>`,
+  stat:()=>`进门前累计阅读：${Math.round(sumKey()/1000)} 秒 · 要求阅读时长：远不止`},
+ intruder:{paper:false,t:'越界者',no:'归-00X · 闯入记录',
+  body:()=>`<p>你还没有资格听点名，却已经三次推开那扇门。</p><p>门后的人抬起头。他看起来并不生气，只是有点疲惫，像等这节课等了很久。</p><p class="red">他说："既然这么想进来——那就不用等点名了。"</p>`,
+  stat:()=>`未授权访问：${S.tres} 次 · 结果：提前入学`}
+};
+const fmtDur=()=>{ const s=Math.max(1,Math.round((Date.now()-S.started)/1000));
+  return Math.floor(s/60)+' 分 '+(s%60)+' 秒' };
+function endGame(code,extra){ if(S.ended)return; S.ended=code; S.cd=null; persist();
+  EN[code]=1; saveEN(); AE.stopAll(); mclose();
+  if(code==='graduate')AE.bell(); else if(code==='successor')AE.chalk(); else AE.scream();
+  showEnding(code,extra) }
+function showEnding(code,extra){ const d=ENDDATA[code];
+  document.body.classList.remove('inlyn','hunted'); document.title='归档 · '+d.t;
+  $('#app').innerHTML=''; const ov=$('#overlay'); ov.classList.add('on');
+  ov.innerHTML=`<div class="endcard ${d.paper?'paper':''}">
+   <div class="eno">青川三中 · 档案科 · ${d.no}</div><h2>${d.t}</h2>
+   <div class="body">${d.body(extra)}</div>
+   <div class="stat">${d.stat(extra)}<br>结局图鉴：${Object.keys(EN).length} / 6</div>
+   <div class="acts"><button class="btn" data-act="restart">重新入学</button><button class="btn line" data-act="toarchive">查看档案室</button></div></div>` }
+function softReset(toArchive){ S={auth:null,fails:0,time:{},mail:false,treeN:0,denyN:0,tres:0,shallowN:0,qN:0,
+  lynchRead:{},lynchTab:'roster',introDone:false,cd:null,called:null,ended:null,started:Date.now(),sealN:0,noteN:0,aTab:null};
+  persist(); cur=null; since=Date.now(); typeGen++;
+  AE.stopAll(); mclose();
+  const ov=$('#overlay'); ov.classList.remove('on'); ov.innerHTML='';
+  document.body.className=''; document.title='青川市第三高级中学 | 官方网站';
+  const target=toArchive?'#/archive':'#/';
+  if(location.hash===target)render(); else location.hash=target }
+
+/* =========================================================
+   交互分发
+========================================================= */
+const STUDB=[
+ {n:'周雨桐',aka:['周雨桐','雨桐'],doc:`<div class="mail"><div class="mh">查询结果 · 学号 20190416</div><p><b>周雨桐</b>　高三（4）班 · 2016 年 9 月入学 · 学籍状态：<b style="color:var(--accent)">注 销</b></p><p>注销原因：（该栏为空。系统显示此栏曾被打开 41 次，从未填写。）</p><p class="odd">最后登录：2019-06-02 23:47　登录 IP：旧楼三层</p><p style="font-size:13px;color:var(--ink2)">关联记录：全国中学生作文大赛一等奖（《走廊尽头》）；站内信一封。</p></div>`},
+ {n:'沈叙',aka:['沈叙'],doc:`<div class="mail"><div class="mh">查询结果 · 学号 20190417</div><p><b>沈叙</b>　高二（1）班 · 2019 年 4 月 17 日转入 · 学籍状态：在读</p><p>转出学校：——（该栏为空）</p><p class="odd">该生共提交转入申请 41 次，转出学校名称栏始终为空。按《守则》第二条，予以接收。</p></div>`},
+ {n:'李晓',aka:['李晓'],doc:`<div class="mail"><div class="mh">查询结果 · 高二（3）班</div><p><b>李晓</b>　学籍状态：休学（未归）</p><p>备注：校牌（编号 0417）补办申请已受理 41 天，本人未到场。寻物启事长期有效。</p><p class="odd">最近一次校园卡刷卡记录：2025-09-01 19:40　地点：旧楼一层（读卡器已于 1987 年断电）</p></div>`}
+];
+
+const ACT={
+ nav(){},
+ seal(){ S.sealN++; persist();
+   if(S.sealN===5)toast('校徽背面的刻字：入校即入静，落笔即落名。',true);
+   else if(S.sealN===12)toast('……别再摸它了。它有感觉。',true);
+   else if(S.sealN===49)toast('第四十九次。你数台阶的习惯和一位老师一样。',true) },
+ icp(){ toast('备案信息已失效。原备案主体已于 1987 年注销。') },
+ notice(t){ const n=NOTICES[+t.dataset.i]; modal(`<h3 style="letter-spacing:.1em;margin-bottom:14px">${n[0]}</h3><div class="prose"><p>${n[1]}</p><p style="font-size:13px;color:var(--ink2)">德育处（发布日期见校园公告栏纸质版）</p></div>`) },
+ lockednote(){ S.noteN++; const msgs=['您的权限不足。','权限不足。（该内容面向教工。）','权限不足。（请使用教师的账号。）','权限不足。（我们已经注意到你了。）'];
+   toast(msgs[Math.min(S.noteN-1,3)],true); persist() },
+ tea(t){ const n=t.dataset.n;
+   if(n==='陈守拙')modal(`<h3>陈守拙 · 历史教师</h3><div style="width:120px;height:150px;background:#0d0d0d;margin:16px 0;display:flex;align-items:center;justify-content:center;color:#3a3a3a;font-size:12px;letter-spacing:.1em">照片冲洗失败<br>（已重拍 37 次）</div>
+    <p class="meta" style="border:none;padding:0">工号：T-0870714 · 入职：1987 年 7 月 14 日</p>
+    <div class="prose"><p>历史这门课，我教了三十九年。有一页我永远讲不完，你们不用考。</p><p>课后请把校史馆那一页轻轻合上。别在里面夹任何东西——尤其是名字。</p></div>`)
+   else if(n==='美术教师')modal(`<h3>美术教师 ·（岗位空缺）</h3><p style="margin-top:14px">该岗位自 1987 年起无人应聘，招聘公告长期有效。</p><p style="color:var(--accent);font-size:14px;margin-top:10px">（但每年校庆日晚，总有人看见三楼画室亮灯。）</p>`)
+   else if(n==='秦昼')modal(`<h3>秦昼 · 代理校长</h3><div class="prose"><p>我校最大的传统是"留"。</p><p>有人问：校长为什么一直空缺、只有代理？我说：转正要签字，而有些字，签了就下不来了。</p><p>所以，来了就别急着走——但也别坐那把椅子。</p></div>`)
+   else modal(`<h3>${n}</h3><div class="tp" style="width:90px;height:110px;margin:14px 0"><svg viewBox="0 0 40 50" width="60"><circle cx="20" cy="14" r="9" fill="#7a7666"/><path d="M6 50 Q20 30 34 50 Z" fill="#7a7666"/></svg></div><div class="prose"><p>${({华敛:'校规请逐条背熟。特别是最后几条。',温言:'欢迎来树洞倾诉。所有来信都会被认真阅读——包括那些你没有写下来的。',洛平:'山不走来，我就走去。定理不认人，我也不认。',祝余:'Grammar remembers what you forget.（语法记得你忘掉的事。）',郑还:'力的作用是相互的。你推门，门也推你。',白术:'有些反应不可逆。有些题目不要做第二遍。',关山:'标本比活物安静，但见过的东西一样多。',铁凉:'跑步时四十九步一呼吸。不要数到第四十九。'})[n]}</p></div>`) },
+ pic(t){ const k=t.dataset.k,tt=t.dataset.t;
+   const caps={gate:'校门。门柱是 1979 年奠基那天立起来的，地基比门柱深得多。',build:'教学楼。四层，24 间教室，每间都有后门——虽然从未有人见过有人从后门进出。',track:'操场。跑道内圈 400 米。夜跑的同学请结伴，并在 23:00 前离开。',trees:'白杨道。1979 年种下两排，如今只剩一排。另一排去哪了，园丁说"它们只是站得深了"。',river:'青川河。往东流，不回头。',old:'旧教学楼（已停用）。放大原图可见三层东数第二扇窗内有人形轮廓。冲洗室报告：该底片曝光异常 37 次。另外——原图中台阶是四十九级，照片里数出来是五十级。'}[k];
+   modal(`<h3>${tt}</h3><div class="bigphoto">${scene(k)}</div><div class="mcap"><b>档案说明：</b>${caps}</div>`) },
+ oldpic(t){ const tt=t.dataset.t;
+   if(tt.includes('合影'))modal(`<h3>${tt}</h3><div class="bigphoto">${groupPhoto()}</div><div class="mcap"><b>档案说明：</b>底片上第一排共 41 人。冲印后每次清点都是 42——第 42 个站在两排之间，比谁都清晰，但没有脚。原始底片于 1987 年调档，未归还。</div>`)
+   else modal(`<h3>${tt}</h3><div class="bigphoto">${scene('old')}</div><div class="mcap"><b>档案说明：</b>拍摄于封存前最后一日。照片右侧花圃边缘，可见一只握着黑板擦的手搭在窗沿上。拍摄者坚称当时窗边无人。</div>`) },
+ song(){ AE.init(); if(!AE.ctx)return; const lines=[...document.querySelectorAll('#songbox .songline')];
+   lines.forEach(l=>l.classList.remove('on'));
+   const mel=[[330,.4],[392,.4],[440,.9],[440,.3],[392,.4],[330,.9],[294,.4],[330,.4],[392,.9],[440,.9],[523,.9],[440,1.6]];
+   let t=300; const acc=[0]; mel.forEach(([f,d],i)=>acc.push(acc[i]+d));
+   const starts=[0,acc[3],acc[6],acc[10]];
+   mel.forEach(([f,d],i)=>{ setTimeout(()=>{ AE.tone(f,null,d+.3,.06,'triangle');
+     let li=-1; for(let j=3;j>=0;j--){ if(i>=0&&acc[Math.min([0,3,6,10][j],mel.length)]<=i*0+ (i>=0?0:0)){} }
+     const seg=i<3?0:i<6?1:i<10?2:3;
+     lines.forEach(l=>l.classList.remove('on')); lines[seg].classList.add('on');
+     if(i===mel.length-1)setTimeout(()=>lines.forEach(l=>l.classList.remove('on')),d*1000+800) },t);
+    t+=d*1000 }) },
+ oldsong(){ modal(`<h3>校歌旧版（1987 年前）</h3><div class="song" style="margin-top:16px">
+   <div class="songline">七月的青川河，往东流，不回头。</div>
+   <div class="songline">先生在上，学生在下，四十一个人往下走。</div>
+   <div class="songline">走到桥心莫回头，回头便是年年秋。</div>
+   <div class="songline">先生的课，永远上不够。</div></div>
+   <p style="font-size:13px;color:var(--ink2);margin-top:12px">（旧版于 1987 年 7 月废止。废止文件由历史组陈守拙同志起草，据称是他唯一一次主动起草文件。）</p>`) },
+ tree(){ const v=($('#treebox').value||'').trim(); if(!v){toast('树洞也是洞。往里喊，得有声音。');return}
+   $('#treebox').value=''; S.treeN++; persist(); let rep;
+   if(v.includes('先生')){ rep='不要在信里提他。他看得到。'; document.body.classList.add('hunted'); setTimeout(()=>document.body.classList.remove('hunted'),2500); AE.sting(); flash() }
+   else if(v.includes('102'))rep='这里是收发室，不是邮局。往 102 寄的信没有邮差——收信人会自己来取。';
+   else if(v.includes('201'))rep='201 室不收信。它的门牌要自己找。';
+   else if(v.includes('雨桐'))rep='周雨桐的注册邮箱已于 2019 年 6 月注销。但她偶尔还是会回信。字迹和她那篇作文一样好看。';
+   else if(v.includes('提示')||v.includes('攻略')||v.includes('卡关'))rep='（温老师压低声音）多读信，每段的第一个字也是信的一部分；日期有时候要倒着读；门牌，有时候会挂反。';
+   else rep=`已记录（第 ${S.treeN+40} 份）。请周五放学后留校。（温）`;
+   $('#treereply').innerHTML=`<div class="letter reply" style="margin-top:16px"><h5>回 执</h5><p>${rep}</p><div class="sig">—— 树洞</div></div>` },
+ search(){ const q=($('#libq').value||'').trim(); if(!q){toast('请输入检索词。');return}
+   const hit=LIB.find(e=>e.k.some(k=>q.includes(k)));
+   $('#libres').innerHTML=hit?`<div class="letter"><h5>检索结果</h5><p class="noind"><b>${hit.t}</b><br><span style="font-size:13px;color:var(--ink2)">${hit.sub}</span></p><div class="prose" style="max-width:none">${hit.body()}</div></div>`
+   :`<div class="letter"><p class="noind">未检索到「${esc(q)}」。<br><span style="font-size:14px;color:var(--ink2)">本馆在册藏书 41,779 册，其中 <a href="javascript:void(0)" data-act="hiddenbooks" style="color:var(--accent)">41 册</a>不可被检索。</span></p></div>` },
+ hiddenbooks(){ toast('它们不在目录里。它们在楼下。',true) },
+ readmail(){ S.mail=true; S.aTab='mail'; persist(); toast('信里有些字被水洇开了。凑近一点看。'); render() },
+ atab(t){ S.aTab=t.dataset.t; persist(); $('#app').innerHTML=V.academic() },
+ logout(){ S.auth=null; S.aTab=null; persist(); toast('已注销。下次来，记得带钥匙。'); render() },
+ login(){ AE.init(); const id=($('#lid').value||'').trim(), pw=($('#lpw').value||'').trim();
+   const stu=(id==='20190417'&&pw==='71409102');
+   const tea=/^T-?0?870714$/.test(id)&&pw==='19870714';
+   if(stu){ S.auth={role:'s',name:'沈叙',id:'20190417'}; S.aTab='mail'; AE.chime(); persist(); toast('登录成功。你有 1 封未读站内信。'); $('#app').innerHTML=V.academic() }
+   else if(tea){ S.auth={role:'t',name:'陈守拙',id:'T-0870714'}; S.aTab='tnotice'; AE.chime(); persist(); toast('登录成功。欢迎回来，陈老师。系统显示你已 39 年未修改密码。'); $('#app').innerHTML=V.academic() }
+   else { S.fails++; persist(); AE.sting();
+     if(S.fails>=5){ endGame('detention'); return }
+     const b=$('#loginbox'); b.classList.remove('shake'); void b.offsetWidth; b.classList.add('shake');
+     toast(`账号或密码错误（${S.fails}/5）。系统将在第 5 次错误后上报德育处。`,true) } },
+ snote(t){ const k=t.dataset.i;
+   modal(`<h3 style="letter-spacing:.1em;margin-bottom:14px">${({s1:'关于 2026 年春季学期期末考务安排的通知'})[k]}</h3><div class="prose" style="max-width:none">${TNOTICE[k]}</div>`) },
+ tnote(t){ const k=t.dataset.i;
+   modal(`<h3 style="letter-spacing:.1em;margin-bottom:14px">${({m1:'关于旧教学楼封存情况的会议纪要（摘）',m2:'关于本学年校庆日"留校"安排的通知',m3:'关于档案迁移至 201 室的通告',m4:'《学生守则》第 13—26 条（教工参阅版）'})[k]}</h3><div class="prose" style="max-width:none">${TNOTICE[k]}</div>`) },
+ stuq(){ const box=$('#stures'); if(!box)return;
+   const q=($('#stuq').value||'').replace(/\s+/g,'');
+   if(!q){ box.innerHTML='<div class="mail"><p>请输入要查询的姓名或学号。</p></div>'; return }
+   let out=null;
+   if(/^\d+$/.test(q)){
+     const ids={'20190416':'周雨桐','20190417':'沈叙','0417':'李晓'};
+     if(ids[q]){ const e=STUDB.find(x=>x.n===ids[q]); if(e)out=e.doc }
+     if(!out)out='<div class="mail"><p>查无此学号。</p></div>';
+   } else {
+     const hit=STUDB.find(e=>e.aka.some(a=>q.includes(a)));
+     if(hit)out=hit.doc;
+     else if(TEACHERS.some(x=>q.includes(x))){
+       out=q.includes('陈守拙')
+         ?'<div class="mail"><p>「陈守拙」为教工，请使用工号查询。</p><p class="odd">另外——请勿在系统内检索自己的名字。系统检测到您正在检索自己。</p></div>'
+         :`<div class="mail"><p>「${esc(q)}」为教工姓名，请使用工号查询。</p></div>`;
+     } else {
+       const ros=ROSTER.find(r=>r[1]&&q.includes(r[1]));
+       if(ros)out=`<div class="mail"><div class="mh">查询结果</div><p><b>${ros[1]}</b>　在册年份 ${ros[0]} · 状态：已毕业</p>${ros[2]?`<p>档案备注：${ros[2]}</p>`:''}<p class="odd">我校自建校起毕业率 100%。我们从不放弃任何一个。</p></div>`;
+     }
+   }
+   if(!out){ S.qN=(S.qN||0)+1; persist();
+     out=`<div class="mail"><p>查无此人。</p><p class="odd">您是第 ${41+S.qN} 位查询这个名字的老师。此前 ${40+S.qN} 位，也都没有查到。</p></div>` }
+   box.innerHTML=out },
+ /* —— 里网 —— */
+ ldoc(t){ S.lynchTab=t.dataset.k; S.lynchRead[t.dataset.k]=1; persist(); if(AE.ctx)AE.noise(.08,.06,700); renderLynch() },
+ rollcall(){ const n=($('#rcname').value||'').replace(/\s+/g,'');
+   if(!n){toast('先生在等一个名字。',true);return}
+   S.called=n; S.cd=Date.now()+180000; persist(); document.body.classList.add('hunted');
+   AE.sting(); AE.heart(900); renderLynch() },
+ leave(){ const n=($('#lvname').value||'').replace(/\s+/g,'');
+   if(!n){$('#lvmsg').textContent='请填写姓名。';return}
+   if(n==='沈叙'){$('#lvmsg').textContent='驳回：你还坐在教室里。';return}
+   if(S.called&&n===S.called){$('#lvmsg').textContent='驳回：你今天刚刚应到。';return}
+   if(n.includes('先生')||n.includes('守拙')){$('#lvmsg').textContent='驳回：他不能退学。他已经是这间教室了。';AE.sting();return}
+   const on=ROSTER.find(r=>r[1]===n);
+   if(on){ S.cd=null; AE.stopHeart(); document.body.classList.remove('hunted'); endGame('graduate',n) }
+   else { S.denyN++; $('#lvmsg').textContent=S.denyN>=3?'驳回：查无此人。（试试那些再也没回来上课的名字。）':'驳回：查无此人。档案科不予受理。' } },
+ take(){ if(!ALLREAD())return; endGame('successor') },
+ lynchout(){ if(S.cd){ modal(`<p style="margin-bottom:18px">点名进行中。此刻离校，没有人替你签到。<b style="color:var(--lyn-red2)">钟不会停。</b>确认要翻墙离开吗？</p><button class="lyn-btn" style="margin-left:0" data-act="lynchout2">确 认</button>`) }
+   else modal(`<p style="margin-bottom:18px">离校须先办理手续（见【退学申请】）。未办手续者强行离校的，会被记为"逃课"。</p><button class="lyn-btn" style="margin-left:0" data-act="lynchout2">仍要离开</button>`) },
+ lynchout2(){ mclose(); document.body.classList.remove('inlyn'); AE.droneStop(); location.hash='#/'; toast('你听见了身后的脚步声。',true) },
+ mute(){ AE.toggle() },
+ restart(){ softReset(false) },
+ toarchive(){ softReset(true) },
+ mclose(){ mclose() }
+};
+document.addEventListener('click',e=>{ AE.init(); const el=e.target.closest('[data-act]');
+ if(el&&ACT[el.dataset.act]){ if(el.dataset.act!=='mute')AE.click(); ACT[el.dataset.act](el,e) } });
+document.addEventListener('submit',e=>e.preventDefault());
+document.addEventListener('keydown',e=>{ if(e.key==='Enter'){
+  const t=route(); const ae=document.activeElement;
+  if(t.startsWith('library'))ACT.search();
+  else if(t==='201'&&S.lynchTab==='rollcall')ACT.rollcall();
+  else if(t==='201'&&S.lynchTab==='leave')ACT.leave();
+  else if(t==='academic'&&S.auth&&ae&&ae.id==='stuq')ACT.stuq();
+  else if(t==='academic'&&!S.auth)ACT.login() } });
+
+/* =========================================================
+   路由主循环与全局钟
+========================================================= */
+function render(){
+  if(S.ended){ showEnding(S.ended); return }
+  typeGen++;
+  const r=route();
+  tickTime(r||'home');
+  if(S.cd&&Date.now()>S.cd){ endGame('noname'); return }
+  mclose();
+  const ov=$('#overlay');
+  if(ov.classList.contains('on')&&$('#type-layer')){ ov.classList.remove('on'); ov.innerHTML='' }
+  if(r==='201'){ lynchGuard(); return }
+  document.body.classList.remove('inlyn'); AE.droneStop();
+  if(!S.cd){ document.body.classList.remove('hunted'); AE.stopHeart() }
+  const base=r.split('/')[0];
+  let html;
+  if(r==='news')html=V['news']();
+  else if(base==='news')html=V['news/'](+r.split('/')[1]);
+  else html=(V[r]||V[base]||V['404'])();
+  $('#app').innerHTML=html;
+  document.title='青川市第三高级中学 | 官方网站';
+  window.scrollTo(0,0) }
+window.addEventListener('hashchange',render);
+
+setInterval(()=>{ if(S.cd){ const left=Math.ceil((S.cd-Date.now())/1000);
+  if(left<=0){ endGame('noname'); return }
+  document.body.classList.add('hunted');
+  const el=$('#cdtext'); if(el)el.textContent=`${String(Math.floor(left/60)).padStart(2,'0')}:${String(left%60).padStart(2,'0')}` } },1000);
+
+render();
+</script>
+</body>
+</html>
