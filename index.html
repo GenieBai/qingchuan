@@ -167,11 +167,12 @@ tr:hover .rem{color:var(--accent)}
 #toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
 #toast.red{background:var(--accent2)}
 
-.lyn{display:grid;grid-template-columns:150px 1fr;min-height:62vh;gap:30px}
+.lyn{display:grid;grid-template-columns:170px 1fr;min-height:62vh;gap:30px}
 .lyn-nav{border-right:1px solid #2a2a2c;padding-right:16px}
 .lyn-nav button{display:block;width:100%;text-align:left;background:none;border:none;color:#7c786d;padding:9px 4px;font-size:14.5px;letter-spacing:.15em;border-left:2px solid transparent;transition:.2s}
 .lyn-nav button:hover{color:var(--lyn-fg)}
 .lyn-nav button.on{color:var(--lyn-red2);border-left-color:var(--lyn-red2)}
+.lyn-nav button .lk{color:#4a2020;font-size:12px;margin-left:6px}
 .lyn-nav .sl{writing-mode:vertical-rl;color:#3c2a28;font-size:13px;letter-spacing:.5em;margin:30px auto 0;display:block;text-align:center}
 .lyn-doc h3{color:var(--lyn-red2);font-size:22px;letter-spacing:.25em;margin-bottom:6px;animation:gt 6s infinite}
 @keyframes gt{0%,93%,100%{text-shadow:none;transform:none}94%{text-shadow:-3px 0 #3d0a0a,3px 0 #1d2a2a;transform:skewX(2deg)}96%{text-shadow:3px 0 #3d0a0a,-3px 0 #1d2a2a;transform:skewX(-1.5deg)}97%{transform:none}}
@@ -182,8 +183,9 @@ tr:hover .rem{color:var(--accent)}
 .lyn-doc table{width:100%;border-collapse:collapse;font-size:14px;margin:16px 0}
 .lyn-doc td{border-bottom:1px solid #1e1e20;padding:6px 10px;color:#9a968b}
 .lyn-doc tr:hover td{color:var(--lyn-red2);background:rgba(161,22,22,.06)}
-.lyn-doc td.y{color:#6e6a60;width:90px;font-family:serif}
-.lyn-doc td.n{width:130px;letter-spacing:.15em}
+.lyn-doc td.y{color:#6e6a60;width:110px;font-family:serif}
+.lyn-doc td.n{width:120px;letter-spacing:.15em}
+.lyn-doc tr.ghost td{color:#3c3c3e}
 .cd-bar{border:1px solid #3d1010;background:rgba(161,22,22,.08);padding:10px 18px;margin-bottom:22px;color:var(--lyn-red2);letter-spacing:.15em;display:none;align-items:center;gap:14px;font-size:15px}
 .cd-bar.on{display:flex;animation:cdpulse 1s infinite}
 @keyframes cdpulse{50%{background:rgba(161,22,22,.2)}}
@@ -199,6 +201,16 @@ tr:hover .rem{color:var(--accent)}
 .painting svg{width:100%;height:100%}
 .painting:hover .eye{opacity:.55;transition:3s}
 .painting:hover .figure{transform:translateX(6px);transition:4s}
+.lockface{border:1px solid #3d1010;background:rgba(161,22,22,.04);padding:34px 30px;margin-top:10px;text-align:center}
+.lockface .glyph{font-size:44px;color:#3d1010;letter-spacing:.4em;font-family:serif;margin-bottom:14px}
+.lockface p{color:#6e6a60;font-size:14px}
+.lockface .lyn-input{margin-top:18px}
+.eraser-note{border:1px dashed #4a2020;padding:18px 22px;margin:20px 0;color:#c9c4b8;font-size:14.5px}
+.bricks{display:grid;grid-template-columns:repeat(10,1fr);gap:4px;margin:18px 0;max-width:420px}
+.brick{height:22px;border:1px solid #1e1e20;background:#0d0d0f}
+.brick:hover{border-color:#4a2020}
+.pencilghost{color:#3c3c3e;letter-spacing:.3em;border-bottom:1px solid #1e1e20;display:inline-block;min-width:120px;text-align:center;cursor:default;transition:2s}
+.pencilghost:hover{color:#7a7666;letter-spacing:.1em}
 
 #overlay{position:fixed;inset:0;background:#000;z-index:9800;display:none;align-items:center;justify-content:center;padding:20px}
 #overlay.on{display:flex}
@@ -241,13 +253,14 @@ tr:hover .rem{color:var(--accent)}
 
 <script>
 /* =========================================================
-   青川三中 · ARG  v1.1（修复版）
+   青川三中 · ARG  v2.1「补名」（自检修复版）
 ========================================================= */
 const $=s=>document.querySelector(s);
-const KEY='qc3v1', EKEY='qc3en';
+const KEY='qc3v2', EKEY='qc3en';
 let S=Object.assign({
-  auth:null, fails:0, time:{}, mail:false, treeN:0, denyN:0, tres:0, shallowN:0, qN:0,
-  lynchRead:{}, lynchTab:'roster', introDone:false, cd:null, called:null,
+  auth:null, fails:0, time:{}, mail:false, treeN:0, qN:0, tres:0, shallowN:0,
+  lynchRead:{}, lynchTab:'roster', un:{wall:false,box:false}, lockN:0,
+  introDone:false, cd:null, called:null,
   ended:null, started:Date.now(), sealN:0, noteN:0, aTab:null
 }, (()=>{try{return JSON.parse(localStorage.getItem(KEY))||{}}catch(e){return{}}})());
 let EN=(()=>{try{return JSON.parse(localStorage.getItem(EKEY))||{}}catch(e){return{}}})();
@@ -270,20 +283,18 @@ const ROSTER=[
 [2024,'覃九',''],[2025,'李晓','他的校牌还没有找到']
 ];
 const TEACHERS=['秦昼','华敛','陈守拙','温言','洛平','祝余','郑还','白术','关山','铁凉'];
-const ALLREAD=()=>['roster','log','painting','rollcall','leave','note'].every(k=>S.lynchRead[k]);
+const LYNKEYS=['roster','log','painting','rollcall','leave','note','wall','diary2'];
+const ALLREAD=()=>LYNKEYS.every(k=>S.lynchRead[k]);
 const KEYSET=['home','about','news','teachers','culture','rules','history','library','psych','academic'];
 const sumKey=()=>Object.keys(S.time).reduce((t,k)=>t+(KEYSET.includes(k.split('/')[0])?S.time[k]:0),0);
 
-/* 停留时长：实时记账（切换路由结算上一页；隐藏/关闭页面也结算） */
 let cur=null, since=Date.now();
 function tickTime(r){ const n=Date.now(); if(cur!==null){ S.time[cur]=(S.time[cur]||0)+(n-since) } cur=r; since=n; persist() }
 function bankNow(){ if(cur!==null){ S.time[cur]=(S.time[cur]||0)+(Date.now()-since); since=Date.now(); persist() } }
 window.addEventListener('beforeunload',bankNow);
 document.addEventListener('visibilitychange',()=>{ if(document.hidden)bankNow() });
 
-/* =========================================================
-   音频引擎
-========================================================= */
+/* ================= 音频引擎 ================= */
 const AE={
   ctx:null,master:null,muted:localStorage.getItem('qcmute')==='1',
   amb:[],creakT:null,heartT:null,
@@ -309,6 +320,7 @@ const AE={
   scream(){ this.init(); this.tone(400,2400,.5,.22,'sawtooth'); this.tone(3000,90,.6,.18); this.noise(.6,.14,2500,'bandpass') },
   bell(){ this.init(); [523,659,784].forEach((f,i)=>setTimeout(()=>this.tone(f,null,2.6,.09),i*350)) },
   chalk(){ this.init(); for(let i=0;i<7;i++)setTimeout(()=>this.noise(.09,.12,3500,'highpass'),i*260) },
+  brick(){ this.init(); this.noise(.3,.18,300); setTimeout(()=>this.noise(.2,.12,500),320) },
   droneStart(){ this.init(); if(!this.ctx||this.amb.length)return;
     const g=this.ctx.createGain();g.gain.value=0;g.gain.linearRampToValueAtTime(.14,this.ctx.currentTime+4);g.connect(this.master);
     [[55,'sine'],[55.8,'sine'],[110.3,'triangle']].forEach(([f,t])=>{const o=this.ctx.createOscillator();o.type=t;o.frequency.value=f;o.connect(g);o.start();this.amb.push(o)});
@@ -335,9 +347,6 @@ $('#mute').textContent='音效：'+(AE.muted?'关':'开');
     for(let i=0;i<d.data.length;i+=4){const v=Math.random()*255|0;d.data[i]=d.data[i+1]=d.data[i+2]=v;d.data[i+3]=255}
     x.putImageData(d,0,0) },100) })();
 
-/* =========================================================
-   通用 UI
-========================================================= */
 let toastT;
 function toast(msg,red){ const t=$('#toast'); t.textContent=msg; t.className=red?'on red':'on';
   clearTimeout(toastT); toastT=setTimeout(()=>t.className='',3600) }
@@ -360,11 +369,8 @@ function typeLines(el,lines,done){ const g=++typeGen; let li=0;
       if(ci>=text.length){ clearInterval(tm); cursor.remove(); li++; setTimeout(next, li<lines.length-1?420:200) } },42) }
   next() }
 
-/* =========================================================
-   路由与视图
-========================================================= */
 const route=()=>location.hash.replace(/^#\/?/,'');
-const esc=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;');
+const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 
 const badge=`<svg width="76" height="76" viewBox="0 0 100 100" data-act="seal" style="cursor:pointer" title="校徽">
 <circle cx="50" cy="50" r="47" fill="none" stroke="#25322d" stroke-width="3"/>
@@ -389,9 +395,8 @@ function scene(kind){ const s='fill="#8a8672"';
 function groupPhoto(){ let p='';
   for(let r=0;r<2;r++)for(let i=0;i<12;i++){ const x=12+i*10, y=r?58:40;
     p+=`<circle cx="${x}" cy="${y}" r="3.4" fill="#6e6a58"/><rect x="${x-3.6}" y="${y+3.4}" width="7.2" height="${r?26:20}" fill="#6e6a58"/>` }
-  p+=`<circle cx="72" cy="52" r="3.2" fill="#c9c4b2" opacity=".5"/><rect x="69" y="55" width="6" height="26" fill="#c9c4b2" opacity=".5">`;
-  p=p.replace('</rect>','</rect>');
-  return `<svg viewBox="0 0 140 104" preserveAspectRatio="xMidYMid slice">${p}</svg>`.replace('</svg>','<rect x="0" y="96" width="140" height="4" fill="#8a8672"/></svg>') }
+  p+=`<circle cx="72" cy="52" r="3.2" fill="#c9c4b2" opacity=".5"/><rect x="69" y="55" width="6" height="26" fill="#c9c4b2" opacity=".5"/><rect x="0" y="96" width="140" height="4" fill="#8a8672"/>`;
+  return `<svg viewBox="0 0 140 104" preserveAspectRatio="xMidYMid slice">${p}</svg>` }
 
 function floorPlan(){ const room=(x,y,w,h,t)=>`<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="none" stroke="#5a6357"/><text x="${x+w/2}" y="${y+h/2+4}" text-anchor="middle" font-size="10" fill="#5a6357" font-family="serif">${t}</text>`;
   return `<svg viewBox="0 0 320 130" style="max-width:480px;display:block;margin:20px 0">
@@ -414,8 +419,7 @@ const paintingSVG=`<svg viewBox="0 0 420 320">
 const NAV=[['','首 页'],['about','学校概况'],['news','新闻中心'],['teachers','教师队伍'],['culture','校园文化'],['rules','规章制度'],['history','校史馆'],['library','图书馆'],['psych','心理咨询室'],['academic','教务系统']];
 function shell(r,inner,crumb){ const on=p=>(r===p||(p&&r.startsWith(p+'/')))?'on':'';
   const today=new Date(); const wk='日一二三四五六'[today.getDay()];
-  const jub=(today.getMonth()===6&&today.getDate()===14)?`<div class="jubilee">今天是校庆日（7 月 14 日）。今晚 19:00 后请勿留校，熄灯后请勿应答。</div>`:'';
-  return `${jub}<header class="top"><div class="wrap">
+  return `<header class="top"><div class="wrap">
   <div class="topbar"><div class="brand">${badge}<div><h1>青川市第三高级中学</h1><div class="en">QINGCHUAN NO.3 HIGH SCHOOL · EST.1979</div></div></div>
   <div class="datebar">今天是 ${today.getFullYear()} 年 ${today.getMonth()+1} 月 ${today.getDate()} 日 星期${wk}<br>校历第 47 教学年 · 期末阶段</div></div>
   <nav class="main">${NAV.map(([p,t])=>`<a href="#/${p}" class="${on(p)}" data-act="nav">${t}</a>`).join('')}</nav>
@@ -504,10 +508,10 @@ V['news/']=(i)=>{ const n=NEWS[i]; if(!n)return V['404']();
 V['teachers']=()=>shell('teachers',`
  <h2 class="page">教师队伍</h2><div class="crumb">首页 / 教师队伍</div>
  <div class="tgrid">
-  ${[['秦昼','代理校长 · 物理','head'],['华敛','教导主任 · 数学','norm'],['陈守拙','历史教师 · 工号 T-0870714','black'],
-     ['温言','心理教师 · 树洞信箱负责人','norm'],['洛平','数学教师','norm'],['祝余','英语教师','norm'],
-     ['郑还','物理教师','norm'],['白术','化学教师','norm'],['关山','生物教师','norm'],
-     ['铁凉','体育教师','norm'],['美术教师','（该岗位自 1987 年起空缺）','empty']].map(t=>{
+  ${[['秦昼','代理校长 · 物理'],['华敛','教导主任 · 数学'],['陈守拙','历史教师 · 工号 T-0870714','black'],
+     ['温言','心理教师 · 树洞信箱负责人'],['洛平','数学教师'],['祝余','英语教师'],
+     ['郑还','物理教师'],['白术','化学教师'],['关山','生物教师'],
+     ['铁凉','体育教师'],['美术教师','（该岗位自 1987 年起空缺）','empty']].map(t=>{
     const photo=t[2]==='black'?`<div class="tp" style="background:#111"></div>`
       :t[2]==='empty'?`<div class="tp" style="background:repeating-linear-gradient(45deg,#c9c4b2 0 6px,#b8b4a2 6px 12px)"></div>`
       :`<div class="tp"><svg viewBox="0 0 40 50" width="44"><circle cx="20" cy="14" r="9" fill="#7a7666"/><path d="M6 50 Q20 30 34 50 Z" fill="#7a7666"/></svg></div>`;
@@ -585,15 +589,17 @@ V['history']=()=>shell('history',`
  <p class="noind" style="font-weight:900;font-size:18px;margin-top:36px">旧教学楼一层平面图（复刻件）</p>
  ${floorPlan()}`,'校史馆');
 
+/* ================= 图书馆 · 检索解谜核心 ================= */
 const LIB=[
  {k:['校史','青川三中'],t:'《青川三中校史（1979—2003）》',sub:'馆藏号 K/087 · 仅限教工外借 · 馆内阅览需登记',
-  body:()=>S.auth?'<p>（翻开摘要页）1987 年 7 月 14 日：新楼落成；旧楼封存。封存原因栏——空白。整页只盖了一方红章，章文为"继续点名"。</p>':'<p>（需要刷卡。请先在教务系统登录你的账号。）</p>'},
- {k:['日志','校务'],t:'《校务日志（1987 年 6—7 月）· 残卷》',sub:'电子化试读 · 仅前 3 页 · 后文虫蛀',
+  body:()=>S.auth&&S.auth.role==='t'?'<p>（翻开摘要页）1987 年 7 月 14 日：新楼落成；旧楼封存。封存原因栏——空白。整页只盖了一方红章，章文为"继续点名"。</p><p>章边的借阅卡上，同一个名字签了三十九年。</p>':(S.auth?'<p>（翻开摘要页）纸面完好，唯独 1987 年那一节被裁去。裁口很整齐，像是很久以前裁的，又像昨天。</p>':'<p>（外借需教工卡。你还没有可以刷的证件。）</p>')},
+ {k:['日志','校务'],t:'《校务日志（1987 年 6—7 月）· 残卷》',sub:'电子化试读 · 仅前 3 页 · 第 4 页起虫蛀 · 修复科登记号 GX-41',
   body:()=>`<p><b>七月十四日　阴。</b>新楼典礼很成功，领导走了以后，学校安静得能听见河水。</p>
   <p>19:40，有人报告旧楼三层亮灯。我带陈守拙过去。102 室的门关着，门缝里闻得到松节油的味道。推开门，黑板上有字，粉笔还是湿的——<span class="odd">"第一课：像。画得像的，留下来当像。"</span></p>
   <p>画架上共四十一张素描。我们数了三遍。全校名册上是四十一个名字，可四十个学生站在我们身后发抖。少的那一个是谁，我们都说不出口。说不出口，所以后来谁也没提。</p>
-  <p>封门那天，陈守拙往墙里放了一块黑板擦。他说，总得有人留下来擦黑板。（第 4 页起虫蛀。）</p>`},
- {k:['作文','雨桐','走廊','大赛'],t:'《全国中学生作文大赛获奖作品集（2019）》',sub:'馆藏号 I/411 · 可外借',
+  <p>封门那天，陈守拙往墙里放了一块黑板擦。他说，总得有人留下来擦黑板。</p>
+  <p style="font-size:13px;color:var(--ink2);border-top:1px dashed var(--line);padding-top:8px;margin-top:18px">（第 4 页起虫蛀。虫蛀页已移交修复科，登记号 GX-41。原件状态：在修。修复进度：四十七年。）</p>`},
+ {k:['作文','雨桐','走廊尽头','大赛'],t:'《全国中学生作文大赛获奖作品集（2019）》',sub:'馆藏号 I/411 · 可外借',
   body:()=>`<p>……（前文与官网新闻一致）……</p>
   <p class="odd">我把地砖放回去的时候，发现新地砖的背面有一行铅笔字，被水泡过，只能认出半句："轮到描名字的人，先想好描谁。"</p>
   <p class="odd">走廊很长。我往回走的时候数了数，从尽头到教室门口，是四十九步。可是我明明只走了四十一步。多出来的八步，踩起来没有声音。</p>
@@ -601,8 +607,49 @@ const LIB=[
  {k:['102','基建','图纸','平面'],t:'《基建档案 · 1987》',sub:'馆藏号 J/102 · 图纸袋缺号',
   body:()=>`<p>图纸缺失。据管理员回忆：1987 年版的平面图上，102 室的位置画的是一间教室；而再早一版上，那个位置什么都没有——不是空房间，是连墙都没有画。</p><p>布面装订的档案盒内侧写着一行小字：盒子里数出来的份数，与登记簿对不上时，以登记簿为准。</p>`},
  {k:['先生','副校长'],t:'检索受限',sub:'',body:()=>`<p>您要找的是不是："副校长（1985—1987 年在任）"？</p><p>该条目姓名栏空缺（原件虫蛀），照片遗失。任职期间出席全部会议，出席名单上永远排在最后一位，签到笔迹与会议记录正文完全一致。</p>`},
- {k:['点名','名册','名录'],t:'——',sub:'',body:()=>`<p style="color:var(--accent)">检索词包含受限字词，本次检索已上报德育处。</p><p style="font-size:13px;color:var(--ink2)">（请勿反复检索。反复检索会被记为"预习"。）</p>`}
+ {k:['点名','名册','名录'],t:'——',sub:'',body:()=>`<p style="color:var(--accent)">检索词包含受限字词，本次检索已上报德育处。</p><p style="font-size:13px;color:var(--ink2)">（请勿反复检索。）</p>`},
+ {hidden:1,k:['四月十七','转入登记','沈叙','报到'],t:'《转入登记表（2019 年 4 月）》',sub:'档案科 · 未编目',
+  body:()=>`<table class="grid">
+   <tr><th style="width:110px">姓名</th><td>沈叙</td><th style="width:110px">转入日期</th><td>2019 年 4 月 17 日</td></tr>
+   <tr><th>学号</th><td>20190417<span style="color:var(--ink2);font-size:12px">（号段＝报到日）</span></td><th>年级</th><td>高二（1）班</td></tr>
+   <tr><th>转出学校</th><td>——（空）</td><th>监护人</th><td>——（空）</td></tr>
+   <tr><th>初始密码</th><td colspan="3">报到日之影。取报到日八位，倒悬于水，逐位读出。<br><span style="font-size:12.5px;color:var(--ink2)">（按规定应提示学生首次登录后立即修改。该生未修改。）</span></td></tr>
+  </table>
+  <p style="font-size:13px;color:var(--ink2)">登记人签名被水洇开。受理章日期：四月十七，与报到日相同——我校受理转入，从不过夜。</p>`},
+ {hidden:1,k:['GX-41','GX41','修复','虫蛀','第4页','第四页'],t:'《文献修复工作单 GX-41》',sub:'修复科 · 内部',
+  body:()=>`<p><b>工作单编号：</b>GX-41　<b>受理：</b>1987 年 8 月　<b>对象：</b>《校务日志》1987 年 6—7 月合订本，第 4—9 页虫蛀。</p>
+  <p><b>处置：</b>铅笔誊录可辨文字如下（誊录人：陈）——</p>
+  <div class="letter" style="margin:14px 0">
+   <p>"七月二十日，校务会议（残）。</p>
+   <p>一、102 室封存方案通过。钥匙不再配发。</p>
+   <p>二、画室材料就地掩埋。</p>
+   <p>三、陈同志反映'晚上仍有讲课声'，定为回音，不予立项。</p>
+   <p class="odd">四、自明年起设校祭值班。值班簿明日起用，首夜执笔：历史组陈守拙，工号随教工名录。</p>
+   <p class="odd">五、值班人系统密钥，以入职纪念日为终身不改之密码；纪念日之始，从值班簿第一行起算。"</p>
+  </div>
+  <p><b>备注：</b>誊录时铅笔芯在同一处断了三次。断口都在"七"字上。修复期间，工作单三次自行移位，均已放回原处。</p>`},
+ {hidden:1,k:['值班簿'],t:'《值班簿》复印件（1987—1995）',sub:'原簿 1996 年起转电子档 · 仅限 201 室调阅',
+  body:()=>`<table class="grid">
+   ${[1987,1988,1989,1990,1991,1992,1993,1994,1995].map((y,i)=>`<tr><td style="width:160px">${y} 年 7 月 14 日</td><td>陈守拙${i===0?'<span style="color:var(--accent);font-size:12.5px">（首签，墨最重）</span>':''}</td></tr>`).join('')}
+  </table>
+  <p style="font-size:13.5px">九年，同一支笔。1996 年起簿子转电子档，此后每年 7 月 14 日的电子签名笔迹，与复印件完全一致。</p>
+  <p style="font-size:13px;color:var(--ink2)">曾有档案员对电子签名提出异议。次日，该档案员转为常年值班。</p>`},
+ {hidden:1,k:['松节油','移交清单','画室'],t:'《画室物品移交清单（1987 年 7 月）》',sub:'总务处 · 此件未登总账',
+  body:()=>`<p>素描纸 四十一刀；铅笔 四十一盒（编号 001—041，其中 041 号盒未移交，借阅人：陈）；松节油 四十一瓶；画架 四十一只；黑板擦 一枚。</p>
+  <p class="odd">黑板擦处置：砌入东墙。自南起第肆拾玖砖。此行勿登总账。</p>
+  <p style="font-size:13px;color:var(--ink2)">移交人签名被水浸过。清单边缘另有一行小字，笔画很轻："擦子朝着墙里那面，是干净的。"</p>`},
+ {hidden:1,k:['白杨','植树','绿化','断根'],t:'《绿化移交单（2003 年）》',sub:'总务处 · 园丁组',
+  body:()=>`<p>白杨两排，1979 年建校时植，共 82 株。现存 41 株：北排 0，南排 41。</p>
+  <p class="odd">1987 年 7 月 14 日，南排第七株（自东数）断根，坑内回填物未登记。同夜，北排余株全部"位移至地下"——园丁报告原文如此，无人要求他改口。</p>
+  <p style="font-size:13.5px">现存南排 41 株，与我校历年"在册"之数相同。每年校庆日晚，树影齐齐指向旧楼。修剪时请勿攀爬，勿摇晃，勿应答树上的声音。</p>`},
+ {hidden:1,k:['蘅','周蘅'],t:'《大事记 · 未刊页》',sub:'无编号 · 不展出',
+  body:()=>`<p>周蘅，1987 届。素描作业曾获市级一等奖，作品题目：《先生》。评委评语只有一句："画得太像了。"</p>
+  <p class="odd">1987 年 7 月 14 日之后，该生姓名在一切名册上保留，在一切教室里缺席。</p>
+  <p>学籍状态：<b>留</b>。</p>
+  <p style="font-size:13px;color:var(--ink2)">注：不是"保留学籍"。</p>`}
 ];
+function libMatch(q){ const n=q.replace(/\s+/g,'');
+  return LIB.find(e=>e.k.some(k=>n.includes(k)||(n.length>=3&&k.includes(n)))) }
 V['library']=()=>shell('library',`
  <h2 class="page stamp">图书馆</h2><div class="crumb">首页 / 图书馆</div>
  <div class="tbox" style="margin-top:0">
@@ -624,12 +671,12 @@ V['psych']=()=>shell('psych',`
  <h2 class="page stamp">心理咨询室 · 树洞信箱</h2><div class="crumb">首页 / 心理咨询室</div>
  <p style="color:var(--ink2);font-size:14px">匿名投递，择优匿名选登。你写下的每一个字都会被认真阅读。</p>
  <div class="letter"><h5>来 信 · 选 登（一）</h5>
-  <p>教室的灯总坏在同一个位置，第三排靠窗。修过三次，第二天又是黑的。</p>
-  <p>务必当没看见。我们都当没看见。</p>
-  <p>系统一样的东西每天都在看我们：考勤、成绩，还有一些我根本没听过名字的名册。</p>
-  <p>登进去你会明白的。我的学号是 20190417。我是 4 月 17 日那天报到的转学生，学号里带着那天。</p>
-  <p>密码是我报到那天的倒影——2019 年 4 月 17 日，倒过来写，一位一位倒。</p>
-  <p>录名册的第二天，那个人就转学了。所以熄灯后走廊尽头的点名声，别应。</p>
+  <p>教室第三排靠窗那盏灯，又黑了一整个学期。修灯的人来过三次。第三次之后，登记簿上多了三个一模一样的名字。</p>
+  <p>务必把这件事忘掉。我们都忘得很好。你也要学会。</p>
+  <p>系统每天清点我们两次：早一次，晚一次。清点用的册子，比我们所有的课本加起来都厚。</p>
+  <p>统共我只担心一件事：册子记名字，比我们记得人名快。有些人走了，册子里的名字还在长。</p>
+  <p>登记我的那天，是四月十七。河水把整座校门倒过来还给我看。我在水里认了半天，才认出那个倒着的自己。</p>
+  <p>录完名字，老师让我别回头。他说校门上的字，正着看是一回事，倒着看是另一回事。</p>
   <div class="sig">—— 匿名</div></div>
  <div class="letter"><h5>来 信 · 选 登（二）</h5>
   <p>坐我前排的女生转学了。桌子第二天就搬空了，可每天早读，我都能听见她翻书的声音。从旧楼那边传来，一页，一页，很慢。</p>
@@ -675,9 +722,8 @@ function acadTab(){ const t=S.auth.role;
   if(S.aTab==='mail')return mailView();
   if(S.aTab==='notice')return noticeView('s');
   if(S.aTab==='sched')return `<table class="grid"><tr><th></th><th>周一</th><th>周二</th><th>周三</th><th>周四</th><th>周五</th></tr>
-   ${['早读','第1节','第2节','第3节','第4节','晚自习'].map((r,ri)=>`<tr><th>${r}</th>${['语文,数学,英语,历史,物理','数学,英语,语文,化学,生物','英语,历史,语文,数学,——','物理,生物,数学,英语,语文','化学,语文,物理,历史,数学','熄灯前点名,英语听力,自习,自习,周记'].split('|')[ri].split(',').map(c=>`<td class="${c==='——'?'odd':''}" ${c==='——'?'title="此格在所有版本课表上都存在，但没有任课教师。请按时到。"':''}>${c}</td>`).join('')}</tr>`).join('')}</table>
-   <p style="font-size:13px;color:var(--ink2)">提示：将鼠标悬停在异常格子上。</p>`;
-  return `<table class="grid"><tr><th>科目</th><th>分数</th><th>备注（悬停查看）</th></tr>
+   ${['早读','第1节','第2节','第3节','第4节','晚自习'].map((r,ri)=>`<tr><th>${r}</th>${['语文,数学,英语,历史,物理','数学,英语,语文,化学,生物','英语,历史,语文,数学,——','物理,生物,数学,英语,语文','化学,语文,物理,历史,数学','熄灯前点名,英语听力,自习,自习,周记'].split('|')[ri].split(',').map(c=>`<td class="${c==='——'?'odd':''}" ${c==='——'?'title="此格在所有版本课表上都存在，但没有任课教师。请按时到。"':''}>${c}</td>`).join('')}</tr>`).join('')}</table>`;
+  return `<table class="grid"><tr><th>科目</th><th>分数</th><th>备注</th></tr>
    ${[['语文',92,'作文《走廊尽头》曾送市里参评，评语遗失。'],['数学',88,'该生演算纸背面反复出现同一句：还有一页。'],['英语',104,'听力部分满分。该生称"听到的和录音带不一样"。'],['物理',40,'该生多次反映物理课上能听见楼上讲课。经查：教室上方为四楼，无课程安排。'],['化学',37,'实验课缺勤。该生称实验室镜子里的自己动作较慢。'],['生物',31,'标本课缺勤。'],['音乐',0,'缺考。琴房自 1987 年停用。']]
    .map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td><td><span class="rem" title="${r[2]}">${r[2]}</span></td></tr>`).join('')}</table>
    <p style="font-size:13px;color:var(--ink2)">总分 392 · 班级排名 41 / 41</p>`+noticeView('s',true);
@@ -690,7 +736,7 @@ const RULES13=[['第十三条','旧教学楼不属于本校。所以，进入它
 
 function noticeView(role,append){ const items=role==='s'
  ?[['关于 2026 年春季学期期末考务安排的通知',0,'s1','snote'],['校庆日留校值班安排（教工版）',1],['《学生守则》涉密条款修订说明',1],['旧教学楼封存会议纪要',1],['档案迁移通告',1]]
- :[['关于旧教学楼封存情况的会议纪要（摘）',0,'m1','tnote'],['关于本学年校庆日"留校"安排的通知',0,'m2','tnote'],['关于档案迁移至 201 室的通告',0,'m3','tnote'],['《学生守则》第 13—26 条（教工参阅版）',0,'m4','tnote']];
+ :[['关于旧教学楼封存情况的会议纪要（摘）',0,'m1','tnote'],['关于本学年校庆日"留校"安排的通知',0,'m2','tnote'],['关于档案迁移的通告',0,'m3','tnote'],['《学生守则》第 13—26 条（教工参阅版）',0,'m4','tnote']];
  return `${append?'':'<div style="margin-top:16px">'}${items.map(n=>`<div class="notice-item ${n[1]?'locked':''}" data-act="${n[1]?'lockednote':n[3]}" data-i="${n[2]||n[0]}"><span>${n[0]}</span><span class="lock">${n[1]?'［锁］ 权限不足':'阅 览'}</span></div>`).join('')}${append?'':'</div>'}`}
 
 const TNOTICE={
@@ -707,93 +753,144 @@ const TNOTICE={
  <p>一、经过旧楼时不得停留，不得计数台阶（共四十九级。数完的人会想再数一遍）。</p>
  <p class="odd">二、若闻点名声，核对名单与本班在册学生一致后可继续前行。<b>若名单上出现你自己的名字，请立即默诵校歌旧版第一段，并加快脚步。</b></p>
  <p>三、巡楼结束在《值班簿》签名。请注意：簿子上可能已经有人替你签过了。</p><p style="text-align:right">德育处</p>`,
- m3:`<p>因档案馆整修，1987 年前后全部校务档案已迁移至档案馆 <b>201 室</b>。</p>
- <p class="odd">施工时工人将门牌挂反，一直未及更正——来办事的老师请留意，别在"102"门口等开门。<b>有些门牌，正着挂和倒着挂，开的不是同一间屋。</b></p>
- <p style="text-align:right">总务处</p>
- <p style="border-top:1px dashed var(--line);padding-top:12px"><a href="#/201" data-act="nav" style="color:var(--accent)">前往档案馆 201 室 →</a></p>`,
+ m3:`<p>因档案库调整，1987 年前后全部校务档案的调阅权限统一收归档案馆。</p>
+ <p class="odd">档案馆的门牌是工字房最里那间。施工那年工人把门牌挂反过一次，一直没换回来——后来干脆就不换了。<b>有些门牌，正着挂和倒着挂，开的不是同一间屋。</b>走错的人，我们一般不提醒。</p>
+ <p style="text-align:right">总务处</p>`,
  m4:RULES13.map(r=>`<p><b style="color:var(--accent)">${r[0]}</b>　${r[1]}</p>`).join('')
 };
 function mailView(){ return S.mail?`
- <div class="mail"><div class="mh">发件人：周雨桐（2019-06-02 23:47）· 标题：如果你登进来</div>
- <p>你能登进这个系统，说明你找到了那些字。很好。时间不多，我长话短说。</p>
- <p>我是周雨桐。档案里写我"转学"。你可以去查我的学籍状态——它现在是"注销"，但注销原因那一栏是空的，光标一直在那里闪，像是在等谁填。</p>
- <p>我在图书馆翻过 1987 年的校务日志。旧教学楼不是"停用"，是"封存"。102 室的门不是锁上的，<b>是砌进去的</b>。砌墙名单里有一个人的名字被涂掉了，只看得清一个"陈"字。</p>
- <p>历史组的陈守拙老师，1987 年就在这所学校。他的密码从来没换过——他自己说，因为"那一页永远翻不过去"。</p>
- <p class="odd">去校史馆，翻到那一页。日期就是钥匙。</p>
- <p>拿到之后，用老师的身份去看内部通知。看完你会明白，学校每年 7 月 14 日让大家"留校"，是为了什么。</p>
- <p class="odd">《档案迁移通告》的末尾有一扇门。门牌这种东西——记得看清楚它是正着挂，还是倒着挂。</p>
- <p class="odd">最后：里面有一个点名册。校规第二十七条你背过吗？现在去背。背熟。</p>
+ <div class="mail"><div class="mh">发件人：周雨桐（2019-06-02 23:47）· 标题：字外面的事</div>
+ <p>你能登进来，说明字都读到了。那我只说字外面的事。</p>
+ <p>我的学籍是"注销"。注销原因那一栏是空的，光标一直在闪，像在等谁填。</p>
+ <p>图书馆里有一本日志。前三页是钢笔，第四页起是虫。可是虫不吃铅笔字——有人在虫洞上用铅笔补过话。补话的人，署名只有一个"陈"字。</p>
+ <p>补的话里有一串数字，和一支永远停在七点十四分的表。</p>
+ <p>学校每年七月十四日"留校"的名单越来越长。名单是点名用的。点名不是点名。</p>
+ <p class="odd">我的作文里写过那个从下面刻上来的字。全名我不敢写。你去查，字里藏着字。</p>
  <p style="text-align:right">—— 雨桐</p></div>`
  :`<div style="padding:20px 0"><button class="btn" data-act="readmail">打开未读信件（1）</button></div>`}
 
-const ENDNAMES={graduate:'毕业',successor:'继任者',noname:'无名',detention:'留堂',witness:'目击者',intruder:'越界者'};
+const ENDORDER=['graduate','perfect','successor','spoil','noname','detention','witness','intruder'];
+const ENDNAMES={graduate:'毕业',perfect:'归还',successor:'继任者',spoil:'涂改',noname:'无名',detention:'留堂',witness:'目击者',intruder:'越界者'};
 V['archive']=()=>shell('archive',`
  <h2 class="page">旧档室</h2><div class="crumb">首页 / 旧档室</div>
  <p style="color:var(--ink2);font-size:14px">这里存放已经归档的结局。未归档的，档案科不承认发生过。</p>
  <table class="grid" style="max-width:560px"><tr><th>编号</th><th>结局</th><th>状态</th></tr>
- ${Object.keys(ENDNAMES).map((k,i)=>`<tr><td>归-00${i+1}</td><td>${EN[k]?ENDNAMES[k]:'□□□'}</td><td>${EN[k]?'已归档':'档案缺失'}</td></tr>`).join('')}</table>
- <p style="font-size:13px;color:var(--ink2)">已归档 ${Object.keys(EN).length} / 6。</p>`,'旧档室');
+ ${ENDORDER.map((k,i)=>`<tr><td>归-0${i+1}</td><td>${EN[k]?ENDNAMES[k]:'□□□'}</td><td>${EN[k]?'已归档':'档案缺失'}</td></tr>`).join('')}</table>
+ <p style="font-size:13px;color:var(--ink2)">已归档 ${Object.keys(EN).length} / 8。</p>`,'旧档室');
 
 V['404']=()=>shell('404',`<h2 class="page">页面不存在</h2><p style="margin-top:20px">你要找的页面不存在——或者它存在，只是不肯见你。</p><p><a href="#/" style="color:var(--accent)">返回首页</a></p>`,'');
 
 /* =========================================================
-   里网  #/201
+   里网 · 八卷
 ========================================================= */
+/* 砖墙不标号：答案只能来自《画室物品移交清单》 */
+const bricksHTML=()=>`<div class="bricks">${Array.from({length:49},()=>`<div class="brick"></div>`).join('')}</div>`;
+
 const LDOCS={
- roster:{no:'卷一 · 在册名录',t:'名 录',html(){ const rows=ROSTER.map(r=>`<tr><td class="y">${r[0]}</td><td class="n">${r[1]}</td><td>${r[2]||'&nbsp;'}</td></tr>`).join('');
-  const last=S.called?`<tr style="background:rgba(161,22,22,.15)"><td class="y">2026</td><td class="n">${S.called}</td><td>刚刚应到</td></tr>`
+ roster:{name:'名 录',no:'卷一 · 在册名录',html(){ const rows=ROSTER.map(r=>`<tr class="${r[1]==='周蘅'?'ghost':''}"><td class="y">${r[0]}</td><td class="n">${r[1]}</td><td>${r[2]||'&nbsp;'}</td></tr>`).join('');
+  const last=S.called?`<tr style="background:rgba(161,22,22,.15)"><td class="y">2026</td><td class="n">${esc(S.called)}</td><td>刚刚应到</td></tr>`
    :`<tr><td class="y">2026</td><td class="n" style="color:#3c3c3e">＿＿＿</td><td class="dim">等待补录</td></tr>`;
   return `<table><tr><td class="y">年份</td><td class="n">姓名</td><td>备注</td></tr>${rows}${last}</table>
   <p class="dim">历年在册 47 人，另有 1 席待补。每年 7 月 14 日，先生念到一个名字，教室里就多一个学生。</p>
+  <p class="dim" style="font-size:13px">（1987 年那一行，颜色比别的淡。像隔着一层玻璃。）</p>
   ${ALLREAD()?`<p class="red" style="margin-top:34px;letter-spacing:.2em">先生的位置，还空着。</p><button class="lyn-btn" style="margin-left:0" data-act="take">坐 下 来</button>`:''}`}},
- log:{no:'卷二 · 校务日志补遗',t:'校务日志 · 补遗（1987）',html:()=>`
+ log:{name:'日志补遗',no:'卷二 · 校务日志补遗',html:()=>`
   <p><b>七月十四日　阴。</b></p><p>新楼典礼很成功。领导走了以后，学校安静得能听见河水。</p>
   <p>19:40，有人报告旧楼三层亮灯。我带陈守拙过去看。102 室的门关着。我们从门缝里闻到松节油的味道。</p>
   <p>推开门的时候，黑板上有字，粉笔还是湿的——</p><p class="red">"第一课：像。画得像，就留下来当像。"</p>
   <p>画架上共四十一张素描。我们数了三遍。全校名册上是四十一个名字，可四十个学生站在我们身后发抖。</p>
   <p class="red">少的那一个是谁，我们都说不出口。因为说不出口，所以后来谁也没有提。</p>
   <p>封门的时候，陈守拙往墙里放了一块黑板擦。他说，总得有人留下来擦黑板。</p><p class="dim">—— 值班教师　周</p>`},
- painting:{no:'卷三 · 实物档案',t:'先生的画',html:()=>`
+ painting:{name:'先生的画',no:'卷三 · 实物档案',html:()=>`
   <div class="painting">${paintingSVG}</div>
   <p>这不是一幅画。这是一扇没有关好的窗。</p>
   <p>先生在 1987 年 7 月 14 日晚上了第一课。他的学生画他——画得越像，就离他越近。四十个人里，有一个画得最像。</p>
   <p>先生很喜欢他。于是先生让全班都画他。</p>
   <p class="red">从那以后，每年 7 月 14 日晚上，先生都要点名。他念一个名字，教室里就多一个学生。</p>
-  <p>教室一直在招生。教室从来没有毕业。</p>`},
- rollcall:{no:'卷四 · 今日课务',t:'点 名 册',html:()=>`
+  <p>教室一直在招生。教室从来没有毕业。</p>
+  <p class="dim" style="font-size:13px">（档案管理员注：第四十一张与另外四十张不同——它有署名。署名是铅笔写的，一个字，淡得快要看不见。）</p>`},
+ rollcall:{name:'点名册',no:'卷四 · 今日课务',html:()=>`
   <p class="dim">1987 年 7 月 14 日，四十一张画。本班在册四十一个名字，第三排靠窗的座位，自那天起一直空着。</p>
   <p class="red">校规第二十七条你已经背熟了吧。<b>念到你名字时，不要应答。</b></p>
   <div class="seats">${(()=>{let h='';for(let i=0;i<41;i++){ if(i===17)h+=`<div class="seat empty">${S.called?'':'空'}</div>`; else h+=`<div class="seat">${41-i}</div>`}return h})()}</div>
-  ${S.called?`<p class="red">应到。<b>${S.called}</b>，已应到。41 人，到 41 人。满员了。点名开始。</p>`
-  :`<div style="display:flex;gap:0;margin-top:20px"><input id="rcname" class="lyn-input" placeholder="你的名字" autocomplete="off"><button class="lyn-btn" data-act="rollcall">应 到</button></div>
-  <p class="dim" style="margin-top:14px;font-size:13px">（你确定要应吗？再想一想第二十七条。）</p>`}`},
- leave:{no:'卷五 · 教务窗口',t:'退 学 申 请',html:()=>`
+  ${S.called?`<p class="red">应到。<b>${esc(S.called)}</b>，已应到。41 人，到 41 人。满员了。点名开始。</p>`
+  :`<div style="display:flex;gap:0;margin-top:20px"><input id="rcname" class="lyn-input" placeholder="你的名字" autocomplete="off"><button class="lyn-btn" data-act="rollcall">应 到</button></div>`}`},
+ leave:{name:'退学申请',no:'卷五 · 教务窗口',html:()=>`
   <p>凡名录在册者，其直系亲属或受托人，可代为办理退学手续。办理成功后，此人从教室除名，先生不再点名。</p>
   <p class="red">本校自 1979 年建校以来，尚无一人办理成功。</p>
+  ${S.called?`<p class="red" style="font-size:13.5px">（今日已应到：${esc(S.called)}。钟，正在走。）</p>`:''}
   <div style="margin-top:26px"><div style="margin-bottom:12px"><span class="dim" style="width:70px;display:inline-block">姓　名</span><input id="lvname" class="lyn-input" placeholder="要替谁办"></div>
   <div style="margin-bottom:12px"><span class="dim" style="width:70px;display:inline-block">理　由</span><input id="lvwhy" class="lyn-input" placeholder="（可不填）"></div>
   <button class="lyn-btn" data-act="leave">递 件</button><span id="lvmsg" class="dim" style="margin-left:16px"></span></div>`},
- note:{no:'卷六 · 移交清单',t:'致 继 任 者',html:()=>`
+ note:{name:'致继任者',no:'卷六 · 移交清单',html:()=>`
   <p>你会看到这一页，说明你把每一页都看完了。很好。先生需要仔细的学生。</p>
   <p>守拙守了三十九年。该画的他都画完了，该擦的他也都擦了。他说他想休息。</p>
+  <p>守拙说，他留了后手。<span class="red">一半砌在墙里，一半埋在树下。</span>墙里的要懂砖，树下的要懂数。他说，仔细的人自然会一路找过去，把该取的都取走。</p>
   <p>椅子在名录那页的末尾，面朝黑板，落了一层粉笔灰。你坐下来，轻轻吹掉，就是接任。</p>
   <p class="red">不坐也可以。看完就走吧。但你既然已经知道了名录的事——往后每年 7 月 14 日晚上，你都会听见点名声。</p>
-  <p>听见了，别应。</p>`}
+  <p>听见了，别应。</p>`},
+ wall:{name:'墙内之物',no:'卷七 · 封存实物',locked(){ return !S.un.wall },
+  html(){ if(!S.un.wall) return lockWall();
+   let h=`<p>砖是活的。你把它抽出来的时候，整面东墙轻轻响了一声，像叹气。</p>${bricksHTML()}
+   <p>砖洞里：一枚黑板擦（毛面朝里，果然干净），一只铁皮盒。盒子没有锁，封条上只有一行小字：</p>
+   <p class="red" style="letter-spacing:.1em">"要开封，先念那一句——我在校史馆说过的，请后来的人也记住的那一句。"</p>`;
+   if(!S.un.box)h+=lockBox(); else h+=`
+   <div class="eraser-note">封条断开。盒内：</div>
+   <p><b>一、第 41 张素描。</b>画上的先生在回头。背面有铅笔字，一个字：<span class="red">蘅</span>。</p>
+   <p><b>二、橡皮一枚</b>，用棉纸包着，边角从未用过。</p>
+   <p><b>三、守拙的绝笔</b>（字迹很稳，只有最后两个字抖）：</p>
+   <div class="letter" style="border-color:#3d1010;background:rgba(161,22,22,.04)">
+    <p>橡皮只有一次。她既在册，又在画里——这两样她都占着，所以谁也动不了她，除了这块橡皮。</p>
+    <p>规矩在《值班簿》的电子档里，末页。我看懂规矩的时候已经晚了，手抖了。我守了三十九年，守成了一半。</p>
+    <p class="red">剩下的，看你的了。</p>
+    <div class="sig">—— 守拙，于第 39 个 7 月 14 日</div></div>`;
+   return h }},
+ diary2:{name:'值班簿',no:'卷八 · 电子档调阅',locked(){ return !S.un.box },
+  html(){ if(!S.un.box)return `<div class="lockface"><div class="glyph">锁</div>
+   <p>1996 年起，《值班簿》转入电子档，仅限 201 室调阅。</p>
+   <p>调阅权限与"墙内之物"的封条同源。</p></div>`;
+   return `
+   <table>
+    <tr><td class="y">1987—1995</td><td class="n">陈守拙</td><td>纸质（复印件藏于图书馆）</td></tr>
+    ${[1996,1997,1998,1999,2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025].map(y=>`<tr><td class="y">${y} 年 7 月 14 日</td><td class="n">陈守拙</td><td>${y>=2023?'签名时间提前至 19:00——值夜从天黑前就开始了':'电子签'}</td></tr>`).join('')}
+    <tr class="ghost"><td class="y">2026 年 7 月 14 日</td><td class="n"><span class="pencilghost" title="被铅笔很轻地描过一个名字的轮廓。放大看——轮廓里不是'陈守拙'三个字。">（轮廓）</span></td><td>空白。有人提前练过笔。</td></tr>
+   </table>
+   <p style="font-size:13.5px">三十年，笔迹未变。2023 年起，签名一天比一天早——今年，是下午七点。天还没黑透，他就来签了。</p>
+   <div class="letter" style="border-color:#3d1010;background:rgba(161,22,22,.04)">
+    <h5>值班簿 · 末页附言（铅笔 · 1995 年字迹）</h5>
+    <p>橡皮的规矩，写给我自己也写给后来的人：</p>
+    <p class="red">一、在册的学生，橡皮擦不动。要让人退学，走教务窗口，报他的名字。</p>
+    <p class="red">二、画进墙里的"像"，橡皮擦得动。擦了，才算"归还"——把名字还给名录，把人还给河的对岸。</p>
+    <p class="red">三、"她"两样都占。所以窗口递她的名字，手里的橡皮要用在她那张画上。顺序错了，就全错了。</p>
+    <p class="dim">—— 我只提醒这一次。字会被虫吃掉的话，就让看懂的人背下来。</p></div>`}}
 };
+function lockWall(){ return `<div class="lockface"><div class="glyph">四十九</div>
+ <p>此卷为实物。东墙已重砌，但有一块砖，当年砌墙的人故意留了活扣。</p>
+ <p class="red">砖号：自南起第几砖？</p>
+ <input id="lock1" class="lyn-input" style="margin-top:18px" placeholder="（数字）" autocomplete="off">
+ <button class="lyn-btn" data-act="unlockwall">抽 砖</button>
+ <p class="dim" style="margin-top:14px;font-size:12.5px">封存清单未登总账。账外之物，账上找不到。</p></div>` }
+function lockBox(){ return `<div class="lockface"><div class="glyph">封</div>
+ <p>铁盒封条上写着："要开封，先念那一句——我在校史馆说过的，请后来的人也记住的那一句。"</p>
+ <input id="lock2" class="lyn-input" style="margin-top:18px" placeholder="（一句话）" autocomplete="off">
+ <button class="lyn-btn" data-act="unlockbox">念 出 来</button></div>` }
 
 function renderLynch(){ document.title='点名中';
   document.body.classList.add('inlyn'); AE.droneStart();
+  const t=S.lynchTab, d=LDOCS[t]||LDOCS.roster;
+  /* 当前展示的卷若未上锁，视为已阅 */
+  if(!(d.locked&&d.locked())){ S.lynchRead[t]=1; persist() }
   const cdOn=!!S.cd; const left=cdOn?Math.max(0,Math.ceil((S.cd-Date.now())/1000)):0;
+  const readN=LYNKEYS.filter(k=>S.lynchRead[k]).length;
   $('#app').innerHTML=`<div class="wrap" style="padding-top:30px">
   <div style="display:flex;justify-content:space-between;border-bottom:1px solid #2a2a2c;padding-bottom:10px;margin-bottom:24px">
    <span style="letter-spacing:.3em;color:var(--lyn-red2)">２０１ 室 · 门牌已正过来</span>
-   <span style="font-size:13px;color:#6e6a60">档案 ${Object.keys(S.lynchRead).length}/6 · 身份：教工 T-0870714 · <a href="javascript:void(0)" data-act="lynchout" style="color:#8a8678">离校</a></span></div>
+   <span style="font-size:13px;color:#6e6a60">卷宗 ${readN}/8 · 身份：教工 ${S.auth?S.auth.id:'——'} · <a href="javascript:void(0)" data-act="lynchout" style="color:#8a8678">离校</a></span></div>
   <div class="cd-bar ${cdOn?'on':''}"><span>点名进行中——请在钟走完之前办理手续</span><b id="cdtext">${String(Math.floor(left/60)).padStart(2,'0')}:${String(left%60).padStart(2,'0')}</b></div>
   <div class="lyn"><div class="lyn-nav">
-   ${['roster|名录','log|日志补遗','painting|先生的画','rollcall|点名册','leave|退学申请','note|致继任者'].map(x=>{const [k,t]=x.split('|');
-     return `<button data-act="ldoc" data-k="${k}" class="${S.lynchTab===k?'on':''}">${t}${S.lynchRead[k]?'':' ·'}</button>`}).join('')}
+   ${LYNKEYS.map(k=>`<button data-act="ldoc" data-k="${k}" class="${t===k?'on':''}">${LDOCS[k].name}${S.lynchRead[k]?'':(LDOCS[k].locked?'<span class="lk">〔锁〕</span>':' ·')}</button>`).join('')}
    <span class="sl">凡在册者 终有一课</span></div>
-  <div class="lyn-doc">${(()=>{const d=LDOCS[S.lynchTab];return `<h3>${d.t}</h3><div class="docno">${d.no} · 已阅 ${Object.keys(S.lynchRead).length} / 6</div>${d.html()}`})()}</div></div></div>`;
+  <div class="lyn-doc"><h3>${d.name}</h3><div class="docno">${d.no} · 已阅 ${readN} / 8</div>${d.html()}</div></div></div>`;
   if(cdOn)AE.heart(left<30?420:900) }
 
 function lynchGuard(){
@@ -809,7 +906,7 @@ function lynchGuard(){
  if(sumKey()<45000){ S.shallowN=(S.shallowN||0)+1; persist();
   if(S.shallowN>=2){ endGame('witness'); return }
   flash(); AE.sting();
-  toast('［201 室］门开了一条缝，又合上了。里面有人说：你来得太快，看得太少。回去把校史、守则、通知和信都看完再来。（不会有第三次提醒。）',true);
+  toast('［201 室］门开了一条缝，又合上了。里面没有解释，只有翻册子的声音。',true);
   setTimeout(()=>{ if(route()==='201')location.hash='#/' },1200); return }
  if(!S.introDone){ S.introDone=true; persist();
   const ov=$('#overlay'); ov.classList.add('on'); ov.innerHTML='<div id="type-layer"></div>';
@@ -817,21 +914,33 @@ function lynchGuard(){
   return }
  renderLynch() }
 
-/* =========================================================
-   结局系统
-========================================================= */
+/* ================= 结局 ================= */
 const ENDDATA={
  graduate:{paper:true,t:'毕业',no:'归-001 · 唯一成功办理的退学',
-  body:n=>n==='周雨桐'
-  ?`<p>窗口的老师看着"周雨桐"三个字，停了很久很久。</p><p>他说："你是这四十七年来，第一个替她来的。"</p><p>划名的时候，整栋旧楼的灯，一层一层，安静地熄灭。当晚没有点名。</p><p>第二天早读，第三排靠窗那张空了七年的桌子上，绿萝活了。</p><p>你在毕业证书上看到自己的名字。你这一局，读得很仔细——先生说过，他喜欢仔细的学生，但那是另一句了。</p>`
-  :`<p>名单上划掉一个名字。旧楼三层，有一扇窗的灯灭了。</p><p>当晚点名，先生在那个名字的位置停顿了很久，然后合上了册子。</p><p>你办完手续离开时，保安头也不抬地放行了。他见过太多来办这件事的人——不，其实你是第一个。</p>`,
-  stat:n=>`被退学者：${n} · 本局在校 ${fmtDur()} · 密码错误 ${S.fails} 次`},
- successor:{paper:false,t:'继任者',no:'归-000 · 不对外归档',
-  body:()=>`<p>粉笔灰吹开的时候，你看见椅子面朝黑板。黑板上有半行没写完的字。</p><p>你拿起粉笔，很自然地把它写完了。第四十一张素描，是你。</p><p>每年 7 月 14 日晚上，你会念到很多名字。你会很有耐心。你不着急。</p><p class="red">教室从来没有毕业。现在，教室是你了。</p>`,
-  stat:()=>`接任日期：7 月 14 日 · 任期：至今 · 本局档案阅读 6/6`},
+  body:n=>`<p>窗口的老师看着"${esc(n)}"三个字，停了很久。</p><p>划名的时候，旧楼三层有一扇窗的灯灭了。</p><p>当晚点名，先生在那个名字的位置停顿了很久，然后合上了册子。</p><p>你办完手续离开时，保安头也不抬地放行了。他见过很多来办这件事的人——不，其实你是第一个。</p>`,
+  stat:n=>`被退学者：${esc(n)} · 本局在校 ${fmtDur()} · 密码错误 ${S.fails} 次`},
+ perfect:{paper:true,t:'归 还',no:'归-000 · 四十七年来第一例',
+  body:()=>`<p>橡皮贴上纸面的那一刻，你听见很轻的一声"别"——不是从教室，是从四十七年那么远的地方。</p>
+  <p>你没有停。第 41 张素描上那个回头的人，一点一点，变成空白。名录 1987 年那一行的淡墨浮起来，重新落成两个字：周蘅。</p>
+  <p>字落定的瞬间，旧楼的灯一层一层亮了，又一层一层熄灭——像整栋楼松了一口气。</p>
+  <p>当晚没有点名。此后也再没有。</p>
+  <p>第二天早读，全校的台阶都是四十八级。第三排靠窗的桌上摆着一支新铅笔。窗外的白杨被风一吹，叶子响得像很多人在小声读课文。</p>
+  <p>值班簿 2026 年那一行的铅笔轮廓，淡了。空着的一行，像在等一个签名。</p>
+  <p class="odd">你的名字在名录之外。回去吧——趁教室还没有想起你。</p>`,
+  stat:()=>`归还者：周蘅 · 橡皮：已用 · 台阶：48 级 · 你：自由`},
+ successor:{paper:false,t:'继任者',no:'归-049 · 不对外归档',
+  body:()=>`<p>粉笔灰吹开的时候，你看见椅子面朝黑板。黑板上有半行没写完的字。</p><p>你拿起粉笔，很自然地把它写完了。第 41 张素描的位置换上了新的一张，是你。</p><p>每年 7 月 14 日晚上，你会念到很多名字。你会很有耐心。你不着急。</p><p class="red">教室从来没有毕业。现在，教室是你了。</p>`,
+  stat:()=>`接任日期：7 月 14 日 · 任期：至今 · 卷宗阅读 8/8`},
+ spoil:{paper:false,t:'涂 改',no:'归-00X · 损毁记录',
+  body:()=>`<p>窗口的老师翻到"周蘅"两个字，把册子合上了。他没有驳回。他只是看着你，看了很久，然后从抽屉里取出一样东西——</p>
+  <p>一块橡皮。全新的。不是守拙藏的那一块。</p>
+  <p>"她不是普通的在册学生，"他说，"她是第 41 张。动她，要用对的那一块橡皮，按对的那一个顺序。规矩写在值班簿的末页——你没读完，就急着递件了。"</p>
+  <p class="red">你那一下，擦坏了像的一角。先生很心疼。</p>
+  <p>他拿起铅笔，在墙边补了新的一张。第 42 张，面朝黑板，是你。</p>`,
+  stat:()=>`损毁：第 41 张 · 补录：第 42 张 · 退学申请：驳回并留档`},
  noname:{paper:false,t:'无名',no:'归-048 · 待补录',
-  body:()=>`<p>钟走完的时候，走廊尽头的手电光照过来了。</p><p>老师在册子上写下你的名字，字很工整。你的座位在第三排靠窗——那盏灯总坏的位置，从此归你。</p><p>你再也不用回家了。</p><p class="red">其实你本来有一次机会。第二十七条，白纸黑字，第十三条旁边就印着。可惜应答之前，你没有回头去读。</p>`,
-  stat:()=>`应到人：${S.called} · 名录编号：048 · 等待补录：完成`},
+  body:()=>`<p>钟走完的时候，走廊尽头的手电光照过来了。</p><p>老师在册子上写下你的名字，字很工整。你的座位在第三排靠窗——那盏灯总坏的位置，从此归你。</p><p>你再也不用回家了。</p><p class="red">其实你本来有一次机会。第二十七条，白纸黑字。可惜应答之前，你没有回头去读。</p>`,
+  stat:()=>`应到人：${esc(S.called||'——')} · 名录编号：048 · 等待补录：完成`},
  detention:{paper:false,t:'留堂',no:'归-00X · 上报记录',
   body:()=>`<p>系统锁定。德育处的脚步声比想象中轻。</p><p>他们说只是谈谈，谈完就可以回家。谈话在一楼的办公室进行。后来换到了旧楼的一楼。</p><p>办公室的门牌是 102。</p><p class="red">可校规里写得很清楚：旧教学楼没有 102 室。所以这间办公室——也不存在。不存在的东西，装得下很多人。</p>`,
   stat:()=>`密码错误：${S.fails} 次 · 上报事由："反复试探他人之钥"`},
@@ -846,7 +955,8 @@ const fmtDur=()=>{ const s=Math.max(1,Math.round((Date.now()-S.started)/1000));
   return Math.floor(s/60)+' 分 '+(s%60)+' 秒' };
 function endGame(code,extra){ if(S.ended)return; S.ended=code; S.cd=null; persist();
   EN[code]=1; saveEN(); AE.stopAll(); mclose();
-  if(code==='graduate')AE.bell(); else if(code==='successor')AE.chalk(); else AE.scream();
+  if(code==='graduate')AE.bell(); else if(code==='perfect'){AE.chalk();setTimeout(()=>AE.bell(),1200)}
+  else if(code==='successor')AE.chalk(); else AE.scream();
   showEnding(code,extra) }
 function showEnding(code,extra){ const d=ENDDATA[code];
   document.body.classList.remove('inlyn','hunted'); document.title='归档 · '+d.t;
@@ -854,10 +964,11 @@ function showEnding(code,extra){ const d=ENDDATA[code];
   ov.innerHTML=`<div class="endcard ${d.paper?'paper':''}">
    <div class="eno">青川三中 · 档案科 · ${d.no}</div><h2>${d.t}</h2>
    <div class="body">${d.body(extra)}</div>
-   <div class="stat">${d.stat(extra)}<br>结局图鉴：${Object.keys(EN).length} / 6</div>
+   <div class="stat">${d.stat(extra)}<br>结局图鉴：${Object.keys(EN).length} / 8</div>
    <div class="acts"><button class="btn" data-act="restart">重新入学</button><button class="btn line" data-act="toarchive">查看档案室</button></div></div>` }
-function softReset(toArchive){ S={auth:null,fails:0,time:{},mail:false,treeN:0,denyN:0,tres:0,shallowN:0,qN:0,
-  lynchRead:{},lynchTab:'roster',introDone:false,cd:null,called:null,ended:null,started:Date.now(),sealN:0,noteN:0,aTab:null};
+function softReset(toArchive){ S={auth:null,fails:0,time:{},mail:false,treeN:0,qN:0,tres:0,shallowN:0,
+  lynchRead:{},lynchTab:'roster',un:{wall:false,box:false},lockN:0,introDone:false,cd:null,called:null,
+  ended:null,started:Date.now(),sealN:0,noteN:0,aTab:null};
   persist(); cur=null; since=Date.now(); typeGen++;
   AE.stopAll(); mclose();
   const ov=$('#overlay'); ov.classList.remove('on'); ov.innerHTML='';
@@ -865,15 +976,14 @@ function softReset(toArchive){ S={auth:null,fails:0,time:{},mail:false,treeN:0,d
   const target=toArchive?'#/archive':'#/';
   if(location.hash===target)render(); else location.hash=target }
 
-/* =========================================================
-   交互分发
-========================================================= */
+/* ================= 学生档案数据库 ================= */
 const STUDB=[
- {n:'周雨桐',aka:['周雨桐','雨桐'],doc:`<div class="mail"><div class="mh">查询结果 · 学号 20190416</div><p><b>周雨桐</b>　高三（4）班 · 2016 年 9 月入学 · 学籍状态：<b style="color:var(--accent)">注 销</b></p><p>注销原因：（该栏为空。系统显示此栏曾被打开 41 次，从未填写。）</p><p class="odd">最后登录：2019-06-02 23:47　登录 IP：旧楼三层</p><p style="font-size:13px;color:var(--ink2)">关联记录：全国中学生作文大赛一等奖（《走廊尽头》）；站内信一封。</p></div>`},
- {n:'沈叙',aka:['沈叙'],doc:`<div class="mail"><div class="mh">查询结果 · 学号 20190417</div><p><b>沈叙</b>　高二（1）班 · 2019 年 4 月 17 日转入 · 学籍状态：在读</p><p>转出学校：——（该栏为空）</p><p class="odd">该生共提交转入申请 41 次，转出学校名称栏始终为空。按《守则》第二条，予以接收。</p></div>`},
+ {n:'周雨桐',aka:['周雨桐','雨桐'],doc:`<div class="mail"><div class="mh">查询结果 · 学号 20190416</div><p><b>周雨桐</b>　高三（4）班 · 学籍状态：<b style="color:var(--accent)">注 销</b></p><p>注销原因：（该栏为空。系统显示此栏曾被打开 41 次，从未填写。）</p><p class="odd">最后登录：2019-06-02 23:47　登录 IP：旧楼三层</p></div>`},
+ {n:'沈叙',aka:['沈叙'],doc:`<div class="mail"><div class="mh">查询结果 · 学号 20190417</div><p><b>沈叙</b>　高二（1）班 · 2019 年 4 月 17 日转入 · 学籍状态：在读</p><p>转出学校：——（空）</p><p class="odd">该生共提交转入申请 41 次，转出学校名称栏始终为空。按《守则》第二条，予以接收。</p></div>`},
  {n:'李晓',aka:['李晓'],doc:`<div class="mail"><div class="mh">查询结果 · 高二（3）班</div><p><b>李晓</b>　学籍状态：休学（未归）</p><p>备注：校牌（编号 0417）补办申请已受理 41 天，本人未到场。寻物启事长期有效。</p><p class="odd">最近一次校园卡刷卡记录：2025-09-01 19:40　地点：旧楼一层（读卡器已于 1987 年断电）</p></div>`}
 ];
 
+/* ================= 交互 ================= */
 const ACT={
  nav(){},
  seal(){ S.sealN++; persist();
@@ -900,12 +1010,10 @@ const ACT={
  song(){ AE.init(); if(!AE.ctx)return; const lines=[...document.querySelectorAll('#songbox .songline')];
    lines.forEach(l=>l.classList.remove('on'));
    const mel=[[330,.4],[392,.4],[440,.9],[440,.3],[392,.4],[330,.9],[294,.4],[330,.4],[392,.9],[440,.9],[523,.9],[440,1.6]];
-   let t=300; const acc=[0]; mel.forEach(([f,d],i)=>acc.push(acc[i]+d));
-   const starts=[0,acc[3],acc[6],acc[10]];
+   let t=300;
    mel.forEach(([f,d],i)=>{ setTimeout(()=>{ AE.tone(f,null,d+.3,.06,'triangle');
-     let li=-1; for(let j=3;j>=0;j--){ if(i>=0&&acc[Math.min([0,3,6,10][j],mel.length)]<=i*0+ (i>=0?0:0)){} }
      const seg=i<3?0:i<6?1:i<10?2:3;
-     lines.forEach(l=>l.classList.remove('on')); lines[seg].classList.add('on');
+     lines.forEach(l=>l.classList.remove('on')); if(lines[seg])lines[seg].classList.add('on');
      if(i===mel.length-1)setTimeout(()=>lines.forEach(l=>l.classList.remove('on')),d*1000+800) },t);
     t+=d*1000 }) },
  oldsong(){ modal(`<h3>校歌旧版（1987 年前）</h3><div class="song" style="margin-top:16px">
@@ -917,21 +1025,22 @@ const ACT={
  tree(){ const v=($('#treebox').value||'').trim(); if(!v){toast('树洞也是洞。往里喊，得有声音。');return}
    $('#treebox').value=''; S.treeN++; persist(); let rep;
    if(v.includes('先生')){ rep='不要在信里提他。他看得到。'; document.body.classList.add('hunted'); setTimeout(()=>document.body.classList.remove('hunted'),2500); AE.sting(); flash() }
-   else if(v.includes('102'))rep='这里是收发室，不是邮局。往 102 寄的信没有邮差——收信人会自己来取。';
-   else if(v.includes('201'))rep='201 室不收信。它的门牌要自己找。';
-   else if(v.includes('雨桐'))rep='周雨桐的注册邮箱已于 2019 年 6 月注销。但她偶尔还是会回信。字迹和她那篇作文一样好看。';
-   else if(v.includes('提示')||v.includes('攻略')||v.includes('卡关'))rep='（温老师压低声音）多读信，每段的第一个字也是信的一部分；日期有时候要倒着读；门牌，有时候会挂反。';
-   else rep=`已记录（第 ${S.treeN+40} 份）。请周五放学后留校。（温）`;
+   else if(v.includes('102'))rep='往 102 寄的信，没有邮差。';
+   else if(v.includes('201'))rep='201 室不收信。';
+   else if(v.includes('蘅'))rep='这个名字，信里最好少写。有人认字。';
+   else if(v.includes('橡皮'))rep='橡皮这种东西，用一次少一次。别问是谁的。';
+   else rep=`已收讫（第 ${S.treeN+40} 份）。字迹已存档。`;
    $('#treereply').innerHTML=`<div class="letter reply" style="margin-top:16px"><h5>回 执</h5><p>${rep}</p><div class="sig">—— 树洞</div></div>` },
  search(){ const q=($('#libq').value||'').trim(); if(!q){toast('请输入检索词。');return}
-   const hit=LIB.find(e=>e.k.some(k=>q.includes(k)));
-   $('#libres').innerHTML=hit?`<div class="letter"><h5>检索结果</h5><p class="noind"><b>${hit.t}</b><br><span style="font-size:13px;color:var(--ink2)">${hit.sub}</span></p><div class="prose" style="max-width:none">${hit.body()}</div></div>`
-   :`<div class="letter"><p class="noind">未检索到「${esc(q)}」。<br><span style="font-size:14px;color:var(--ink2)">本馆在册藏书 41,779 册，其中 <a href="javascript:void(0)" data-act="hiddenbooks" style="color:var(--accent)">41 册</a>不可被检索。</span></p></div>` },
- hiddenbooks(){ toast('它们不在目录里。它们在楼下。',true) },
- readmail(){ S.mail=true; S.aTab='mail'; persist(); toast('信里有些字被水洇开了。凑近一点看。'); render() },
+   const hit=libMatch(q);
+   $('#libres').innerHTML=hit?`<div class="letter"><h5>检索结果${hit.hidden?' · 未编目':''}</h5><p class="noind"><b>${hit.t}</b><br><span style="font-size:13px;color:var(--ink2)">${hit.sub}</span></p><div class="prose" style="max-width:none">${hit.body()}</div></div>`
+   :`<div class="letter"><p class="noind">未检索到「${esc(q)}」。</p><p style="font-size:14px;color:var(--ink2)">本馆在册藏书 41,779 册，其中 41 册不可被检索。也许你要找的那个词，写在别页的字缝里。</p></div>` },
+ hiddenbooks(){ toast('它们不在目录里。',true) },
+ readmail(){ S.mail=true; S.aTab='mail'; persist(); render() },
  atab(t){ S.aTab=t.dataset.t; persist(); $('#app').innerHTML=V.academic() },
  logout(){ S.auth=null; S.aTab=null; persist(); toast('已注销。下次来，记得带钥匙。'); render() },
  login(){ AE.init(); const id=($('#lid').value||'').trim(), pw=($('#lpw').value||'').trim();
+   if(!id||!pw){ const b=$('#loginbox'); if(b){b.classList.remove('shake');void b.offsetWidth;b.classList.add('shake')} return }
    const stu=(id==='20190417'&&pw==='71409102');
    const tea=/^T-?0?870714$/.test(id)&&pw==='19870714';
    if(stu){ S.auth={role:'s',name:'沈叙',id:'20190417'}; S.aTab='mail'; AE.chime(); persist(); toast('登录成功。你有 1 封未读站内信。'); $('#app').innerHTML=V.academic() }
@@ -940,10 +1049,9 @@ const ACT={
      if(S.fails>=5){ endGame('detention'); return }
      const b=$('#loginbox'); b.classList.remove('shake'); void b.offsetWidth; b.classList.add('shake');
      toast(`账号或密码错误（${S.fails}/5）。系统将在第 5 次错误后上报德育处。`,true) } },
- snote(t){ const k=t.dataset.i;
-   modal(`<h3 style="letter-spacing:.1em;margin-bottom:14px">${({s1:'关于 2026 年春季学期期末考务安排的通知'})[k]}</h3><div class="prose" style="max-width:none">${TNOTICE[k]}</div>`) },
+ snote(){ modal(`<h3 style="letter-spacing:.1em;margin-bottom:14px">关于 2026 年春季学期期末考务安排的通知</h3><div class="prose" style="max-width:none">${TNOTICE.s1}</div>`) },
  tnote(t){ const k=t.dataset.i;
-   modal(`<h3 style="letter-spacing:.1em;margin-bottom:14px">${({m1:'关于旧教学楼封存情况的会议纪要（摘）',m2:'关于本学年校庆日"留校"安排的通知',m3:'关于档案迁移至 201 室的通告',m4:'《学生守则》第 13—26 条（教工参阅版）'})[k]}</h3><div class="prose" style="max-width:none">${TNOTICE[k]}</div>`) },
+   modal(`<h3 style="letter-spacing:.1em;margin-bottom:14px">${({m1:'关于旧教学楼封存情况的会议纪要（摘）',m2:'关于本学年校庆日"留校"安排的通知',m3:'关于档案迁移的通告',m4:'《学生守则》第 13—26 条（教工参阅版）'})[k]}</h3><div class="prose" style="max-width:none">${TNOTICE[k]}</div>`) },
  stuq(){ const box=$('#stures'); if(!box)return;
    const q=($('#stuq').value||'').replace(/\s+/g,'');
    if(!q){ box.innerHTML='<div class="mail"><p>请输入要查询的姓名或学号。</p></div>'; return }
@@ -955,6 +1063,7 @@ const ACT={
    } else {
      const hit=STUDB.find(e=>e.aka.some(a=>q.includes(a)));
      if(hit)out=hit.doc;
+     else if(q.includes('周蘅'))out=`<div class="mail"><div class="mh">查询结果</div><p><b>周蘅</b>　1987 届 · 学籍状态：<b style="color:var(--accent)">留</b></p><p>该状态码不在现行学籍系统枚举值内。档案纸质件存 201 室。</p></div>`;
      else if(TEACHERS.some(x=>q.includes(x))){
        out=q.includes('陈守拙')
          ?'<div class="mail"><p>「陈守拙」为教工，请使用工号查询。</p><p class="odd">另外——请勿在系统内检索自己的名字。系统检测到您正在检索自己。</p></div>'
@@ -968,19 +1077,47 @@ const ACT={
      out=`<div class="mail"><p>查无此人。</p><p class="odd">您是第 ${41+S.qN} 位查询这个名字的老师。此前 ${40+S.qN} 位，也都没有查到。</p></div>` }
    box.innerHTML=out },
  /* —— 里网 —— */
- ldoc(t){ S.lynchTab=t.dataset.k; S.lynchRead[t.dataset.k]=1; persist(); if(AE.ctx)AE.noise(.08,.06,700); renderLynch() },
- rollcall(){ const n=($('#rcname').value||'').replace(/\s+/g,'');
+ ldoc(t){ S.lynchTab=t.dataset.k; persist(); if(AE.ctx)AE.noise(.08,.06,700); renderLynch() },
+ unlockwall(){ const ip=$('#lock1'); if(!ip)return;
+   const v=(ip.value||'').replace(/\s+/g,'');
+   const digits=v.replace(/[^0-9]/g,'');
+   if(digits==='49'||digits==='049'||v.includes('四十九')||v.includes('肆拾玖')){
+     S.un.wall=true; persist(); AE.brick(); flash(); renderLynch();
+   } else { S.lockN++; persist(); AE.sting();
+     if(S.lockN%2===0)flash();
+     toast('砖纹丝不动。墙里面有什么东西等了一下，又安静了。',true) } },
+ unlockbox(){ const ip=$('#lock2'); if(!ip)return;
+   const v=(ip.value||'').replace(/[\s，,。、！!？?：:"'""'']/g,'');
+   if(v.includes('愿以此身')){
+     S.un.box=true; persist(); AE.chalk(); renderLynch();
+   } else { S.lockN++; persist(); AE.sting();
+     if(S.lockN%2===0)flash();
+     toast('封条没有断。盒子后面，呼吸声顿了一下。',true) } },
+ rollcall(){ const ip=$('#rcname'); if(!ip)return;
+   const n=(ip.value||'').replace(/\s+/g,'');
    if(!n){toast('先生在等一个名字。',true);return}
+   if(S.called){toast('你已经应过到了。钟，正在走。',true);return}
+   if(n.length>12){toast('名字太长了。册子写不下。',true);return}
+   if(n==='周蘅'){ AE.sting(); toast('这个名字，先生每晚都亲自念。不需要你替它应。',true); return }
+   if(n.includes('先生')||TEACHERS.some(x=>n.includes(x))){ toast('这一册只收学生。教师有教师的名册。',true); return }
+   if(ROSTER.some(r=>r[1]===n)){ if(AE.ctx)AE.noise(.35,.08,600);
+     toast('这个名字已经在册。它的座位，几十年来一直有人。',true); return }
    S.called=n; S.cd=Date.now()+180000; persist(); document.body.classList.add('hunted');
    AE.sting(); AE.heart(900); renderLynch() },
- leave(){ const n=($('#lvname').value||'').replace(/\s+/g,'');
+ leave(){ const ip=$('#lvname'); if(!ip)return;
+   const n=(ip.value||'').replace(/\s+/g,'');
    if(!n){$('#lvmsg').textContent='请填写姓名。';return}
    if(n==='沈叙'){$('#lvmsg').textContent='驳回：你还坐在教室里。';return}
-   if(S.called&&n===S.called){$('#lvmsg').textContent='驳回：你今天刚刚应到。';return}
-   if(n.includes('先生')||n.includes('守拙')){$('#lvmsg').textContent='驳回：他不能退学。他已经是这间教室了。';AE.sting();return}
+   if(n==='周蘅'){
+     if(S.un.box&&S.lynchRead.diary2)endGame('perfect');
+     else endGame('spoil');
+     return }
+   if(n.includes('先生')){$('#lvmsg').textContent='驳回：他不能退学。他已经是这间教室了。';AE.sting();return}
+   if(TEACHERS.some(x=>n.includes(x))){$('#lvmsg').textContent='驳回：教工不在此窗口办理。';return}
    const on=ROSTER.find(r=>r[1]===n);
-   if(on){ S.cd=null; AE.stopHeart(); document.body.classList.remove('hunted'); endGame('graduate',n) }
-   else { S.denyN++; $('#lvmsg').textContent=S.denyN>=3?'驳回：查无此人。（试试那些再也没回来上课的名字。）':'驳回：查无此人。档案科不予受理。' } },
+   if(on){ endGame('graduate',n); return }
+   if(S.called&&n===S.called){$('#lvmsg').textContent='驳回：这个名字今日刚应到，人还在教室里。';return}
+   $('#lvmsg').textContent='驳回：查无此人。档案科不予受理。' },
  take(){ if(!ALLREAD())return; endGame('successor') },
  lynchout(){ if(S.cd){ modal(`<p style="margin-bottom:18px">点名进行中。此刻离校，没有人替你签到。<b style="color:var(--lyn-red2)">钟不会停。</b>确认要翻墙离开吗？</p><button class="lyn-btn" style="margin-left:0" data-act="lynchout2">确 认</button>`) }
    else modal(`<p style="margin-bottom:18px">离校须先办理手续（见【退学申请】）。未办手续者强行离校的，会被记为"逃课"。</p><button class="lyn-btn" style="margin-left:0" data-act="lynchout2">仍要离开</button>`) },
@@ -995,15 +1132,17 @@ document.addEventListener('click',e=>{ AE.init(); const el=e.target.closest('[da
 document.addEventListener('submit',e=>e.preventDefault());
 document.addEventListener('keydown',e=>{ if(e.key==='Enter'){
   const t=route(); const ae=document.activeElement;
+  if(t==='201'){
+    if(S.lynchTab==='rollcall')ACT.rollcall();
+    else if(S.lynchTab==='leave')ACT.leave();
+    else if(S.lynchTab==='wall'&&!S.un.wall)ACT.unlockwall();
+    else if(S.lynchTab==='wall'&&S.un.wall&&!S.un.box)ACT.unlockbox();
+    else return }
   if(t.startsWith('library'))ACT.search();
-  else if(t==='201'&&S.lynchTab==='rollcall')ACT.rollcall();
-  else if(t==='201'&&S.lynchTab==='leave')ACT.leave();
   else if(t==='academic'&&S.auth&&ae&&ae.id==='stuq')ACT.stuq();
   else if(t==='academic'&&!S.auth)ACT.login() } });
 
-/* =========================================================
-   路由主循环与全局钟
-========================================================= */
+/* ================= 路由 ================= */
 function render(){
   if(S.ended){ showEnding(S.ended); return }
   typeGen++;
